@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.modelo;
 
+import co.edu.uniquindio.proyecto.enumeraciones.EstadoPQRS;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;

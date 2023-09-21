@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.modelo;
 
 
+import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

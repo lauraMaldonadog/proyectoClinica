@@ -1,6 +1,8 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import java.io.File;
+
 public interface ImagenesServicios {
-    void subirImagen(String urlImagen);
+    String subirImagen(File imagen);
 }
 

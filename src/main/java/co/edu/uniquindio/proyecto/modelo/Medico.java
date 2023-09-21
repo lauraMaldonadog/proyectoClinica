@@ -2,8 +2,8 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 
+import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
