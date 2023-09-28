@@ -1,5 +1,7 @@
 package co.edu.uniquindio.proyecto.dto;
 
+import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
+import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -9,23 +11,22 @@ import org.hibernate.validator.constraints.Length;
 import java.util.List;
 
 public record RegistroMedicoDTO(
-        @NotNull
-        @Length(max = 200)
+        @NotNull @Length(max = 200)
         String nombre,
 
         @NotNull @Length(max = 10)
         String cedula,
         @NotNull @Min(0) @Max(3)
-        int codigoCiudad,
+        Ciudad ciudad,
         @NotNull @Min(0) @Max(5)
-        int codigoEspecialidad,
+        Especialidad especialidad,
         @NotNull @Length(max = 20)
         String telefono,
         @NotNull @Length(max = 20) @Email
         String correo,
-        @NotNull
+        @NotNull                                // no tendran restricciones de  longuitud
         String password,
-        @NotNull
+        @NotNull                                // no tendran restricciones de  longuitud
         String urlFoto,
         List< HorarioDTO > horarios
 ) {

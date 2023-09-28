@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
+import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
+import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class Usuario extends Cuenta implements Serializable {
     @Column(nullable = false, length = 15)
     private Ciudad codigoCiudad;
 
-
+    private EstadoUsuario estadoUsuario;
 }
 
 

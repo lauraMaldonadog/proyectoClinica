@@ -9,9 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicoRepository extends JpaRepository <Medico, Integer> {
 
-    @Query("select m from Medico m where m.cedula = :cedula") // busca en la base de dato la cedula que entra en ":cedula" y retorna el numero de la cedula
-    Medico buscaPorCedula(String cedula);                     // m es el alias de medico par amayor busqueda
+    //@Query("select m from Medico m where m.cedula = :cedula") // busca en la base de dato la cedula que entra en ":cedula" y retorna el numero de la cedula
+    Medico findByCorreo(String correo);                        // el findByCorreo reemplaza al @Query en las consultas con los operadores logicos
 
-    @Query("select  m from Medico m where  m.correo = :correo") // busca el correo electronico en los :correo
-    void buscarPorCorreo(String correo);
+    // Medico buscaPorCedula(String cedula);                     // m es el alias de medico par amayor busqueda
+    Medico findByCedula(String cedula);
+
+
+
 }
