@@ -4,6 +4,7 @@ public record RegistroRespuestaDTO(
         int codigoRespuesta,
         int codigoPQRS,
         int codigoMensaje,
+        int codigoCuenta,
         String mensaje
 ) {
 }

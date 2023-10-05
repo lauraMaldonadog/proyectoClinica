@@ -38,7 +38,7 @@ public class Cita implements Serializable {
     private Paciente paciente;
 
     @ManyToOne
-    private Medico codMedico;
+    private Medico medico;
 
     private EstadoCita estadoCita;
 

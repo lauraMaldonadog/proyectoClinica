@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.dto;
 
+import co.edu.uniquindio.proyecto.dto.admin.HorarioDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import jakarta.validation.constraints.Email;
@@ -28,6 +29,6 @@ public record RegistroMedicoDTO(
         String password,
         @NotNull                                // no tendran restricciones de  longuitud
         String urlFoto,
-        List< HorarioDTO > horarios
+        List<HorarioDTO> horarios
 ) {
 }

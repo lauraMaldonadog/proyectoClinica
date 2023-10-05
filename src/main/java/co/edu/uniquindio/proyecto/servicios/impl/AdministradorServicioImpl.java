@@ -1,13 +1,14 @@
-package co.edu.uniquindio.proyecto.servicios.interfaces.impl;
+package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.dto.admin.DetalleMedicoDTO;
 import co.edu.uniquindio.proyecto.dto.admin.HorarioDTO;
 import co.edu.uniquindio.proyecto.dto.admin.ItemCitaAdminDTO;
+import co.edu.uniquindio.proyecto.enumeraciones.EstadoPQRS;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.modelo.*;
 import co.edu.uniquindio.proyecto.repositorios.*;
-import co.edu.uniquindio.proyecto.servicios.AdministradorServicios;
+import co.edu.uniquindio.proyecto.servicios.interfaces.AdministradorServicios;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +31,11 @@ public class AdministradorServicioImpl implements AdministradorServicios {
 
     @Override
     public int crearMedico(RegistroMedicoDTO medicoDTO) throws Exception {
-        if (cedulaRepetida(medicoDTO.cedula())){
-            throw new Exception("La cedula "+medicoDTO.cedula()+" ya esta en uso");
+        if (cedulaRepetida(medicoDTO.cedula())) {
+            throw new Exception("La cedula " + medicoDTO.cedula() + " ya esta en uso");
         }
-        if (correoRepetido(medicoDTO.correo())){
-            throw new Exception("El correo "+medicoDTO.correo()+" ya esta en uso.");
+        if (correoRepetido(medicoDTO.correo())) {
+            throw new Exception("El correo " + medicoDTO.correo() + " ya esta en uso.");
         }
 
         Medico medico = new Medico();
@@ -62,24 +63,24 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         return medicoRepo.findByCedula(cedula) != null;
     }
 
-    private void asignarHorarioMedico(Medico nuevoMedico, List<HorarioDTO> horarios){
-        for( HorarioDTO h : horarios ){
+    private void asignarHorarioMedico(Medico nuevoMedico, List<HorarioDTO> horarios) {
+        for (HorarioDTO h : horarios) {
 
-            HorarioMedico hm = new HorarioMedico();
-            hm.setDia( h.dia() );
-            hm.setHoraInicio( h.horaInicio() );
-            hm.setHoraFin( h.horaSalida() );
-            hm.setMedico( medicoNuevo );
+            Horario hm = new Horario();
+            hm.setDia(h.dia());
+            hm.setHoraInicio(h.horaInicio());
+            hm.setHoraFin(h.horaSalida());
+            hm.setCodigoMedico(nuevoMedico);
 
             horarioRepo.save(hm);
         }
     }
 
-    private int actualizarMedico(DetalleMedicoDTO medicoDTO) throws Exception{
+    private int actualizarMedico(DetalleMedicoDTO medicoDTO) throws Exception {
 
         Optional<Medico> opcional = medicoRepo.findById(medicoDTO.codigo());
-        if (opcional.isEmpty()){
-            throw new Exception("El medico con el codigo "+medicoDTO.codigo()+ " no existe");
+        if (opcional.isEmpty()) {
+            throw new Exception("El medico con el codigo " + medicoDTO.codigo() + " no existe");
         }
 
         Medico buscado = opcional.get();
@@ -96,10 +97,10 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         return buscado.getCodigo();
     }
 
-    public void eliminarMedico(int codigo)throws Exception{
+    public void eliminarMedico(int codigo) throws Exception {
         Optional<Medico> optional = medicoRepo.findById(codigo);
-        if (optional.isEmpty()){
-            throw new Exception("El medico con el codigo "+ codigo +" no existe");
+        if (optional.isEmpty()) {
+            throw new Exception("El medico con el codigo " + codigo + " no existe");
         }
 
         Medico buscado = optional.get();
@@ -107,14 +108,14 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         medicoRepo.save(buscado);
     }
 
-List<Medico> listaMedicos() throws Exception{
+    List<Medico> listaMedicos() throws Exception {
         List<Medico> medicos = medicoRepo.findAll();
-        if (medicos.isEmpty()){
+        if (medicos.isEmpty()) {
             throw new Exception("No hay medicos registrados");
         }
 
         List<Medico> respuesta = new ArrayList<>();
-        for(Medico m : medicos){
+        for (Medico m : medicos) {
             m.getCodigo();
             m.getNombre();
             m.getCedula();
@@ -122,29 +123,29 @@ List<Medico> listaMedicos() throws Exception{
             m.getUrlFoto();
         }
         return respuesta;
-}
+    }
 
-
-public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
+    @Override
+    public  InfoMedicoDTO  obenterMedico(int codigo) throws Exception {
         Optional<Medico> optional = medicoRepo.findById(codigo);
 
-        if (optional.isEmpty()){
-            throw new Exception("NO hay medicos con el codigo"+codigo);
+        if (optional.isEmpty()) {
+            throw new Exception("NO hay medicos con el codigo" + codigo);
         }
 
         Medico buscado = optional.get();
-        List<HorarioMedico> horarios = buscado.getListaHorario();
+        List<Horario> horarios = buscado.getListaHorario();
         List<HorarioDTO> horarioDTO = new ArrayList<>();
 
-        for (HorarioMedico hm : horarios){
+        for (Horario hm : horarios) {
             horarioDTO.add(new HorarioDTO(
-                    hm.dia(),
-                    hm.horaInicio(),
-                    hm.horaInicio()
+                    hm.getDia(),
+                    hm.getHoraInicio(),
+                    hm.getHoraFin()
             ));
         }
 
-        return new DetalleMedicoDTO(
+        return new  InfoMedicoDTO (
                 buscado.getCodigo(),
                 buscado.getNombre(),
                 buscado.getCedula(),
@@ -155,7 +156,7 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
                 buscado.getUrlFoto(),
                 horarioDTO
         );
-}
+    }
 
     @Override
     public List<ItemPQRSDTO> listarPQRS() throws Exception {
@@ -163,15 +164,15 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
         List<PQRS> listaPqrs = pqrsRepo.findAll();
         List<ItemPQRSDTO> respuesta = new ArrayList<>();
 
-        for( PQRS p: listaPqrs ){
+        for (PQRS p : listaPqrs) {
 
-            respuesta.add( new ItemPQRSDTO(
+            respuesta.add(new ItemPQRSDTO(
                     p.getCodigo(),
                     p.getEstado(),
                     p.getMotivo(),
                     p.getFechaCreacion(),
                     p.getCita().getPaciente().getNombre()
-            ) );
+            ));
 
         }
 
@@ -179,23 +180,22 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
     }
 
     @Override
-    public DetallePQRSDTO verDetallePQRS(int codigo) throws Exception {
+    public InfoPQRSDTO verDetallePQRS(int codigo) throws Exception {
 
         Optional<PQRS> opcional = pqrsRepo.findById(codigo);
 
-        if(opcional.isEmpty()){
-            throw new Exception("No existe un PQRS con el código "+codigo);
+        if (opcional.isEmpty()) {
+            throw new Exception("No existe un PQRS con el código " + codigo);
         }
 
         PQRS buscado = opcional.get();
 
-        return new DetallePQRSDTO(
+        return new InfoPQRSDTO(
                 buscado.getCodigo(),
                 buscado.getEstado(),
+                buscado.getCita().getCodigo(),
                 buscado.getMotivo(),
                 buscado.getCita().getPaciente().getNombre(),
-                buscado.getCita().getMedico().getNombre(),
-                buscado.getCita().getMedico().getEspecialidad(),
                 buscado.getFechaCreacion(),
                 new ArrayList<>()
         );
@@ -206,21 +206,21 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
 
         Optional<PQRS> opcionalPQRS = pqrsRepo.findById(registroRespuestaDTO.codigoPQRS());
 
-        if(opcionalPQRS.isEmpty()){
-            throw new Exception("No existe un PQRS con el código "+registroRespuestaDTO.codigoPQRS());
+        if (opcionalPQRS.isEmpty()) {
+            throw new Exception("No existe un PQRS con el código " + registroRespuestaDTO.codigoPQRS());
         }
 
         Optional<Cuenta> opcionalCuenta = cuentaRepo.findById(registroRespuestaDTO.codigoCuenta());
 
-        if(opcionalCuenta.isEmpty()){
-            throw new Exception("No existe una cuenta con el código "+registroRespuestaDTO.codigoCuenta());
+        if (opcionalCuenta.isEmpty()) {
+            throw new Exception("No existe una cuenta con el código " + registroRespuestaDTO.codigoCuenta());
         }
 
         Mensaje mensajeNuevo = new Mensaje();
         mensajeNuevo.setCodigoPQRS(opcionalPQRS.get());
-        mensajeNuevo.setFechaCreacion( LocalDateTime.now() );
+        mensajeNuevo.setFechaCreacion(LocalDateTime.now());
         mensajeNuevo.setCodigoCuenta(opcionalCuenta.get());
-        mensajeNuevo.setMensaje(registroRespuestaDTO.mensaje() );
+        mensajeNuevo.setMensaje(registroRespuestaDTO.mensaje());
 
         Mensaje respuesta = mensajeRepo.save(mensajeNuevo);
 
@@ -232,36 +232,36 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
 
         Optional<PQRS> opcional = pqrsRepo.findById(codigoPQRS);
 
-        if( opcional.isEmpty() ){
-            throw new Exception("No existe un PQRS con el código "+codigoPQRS);
+        if (opcional.isEmpty()) {
+            throw new Exception("No existe un PQRS con el código " + codigoPQRS);
         }
 
         PQRS pqrs = opcional.get();
-        pqrs.setEstado( estadoPQRS );
+        pqrs.setEstado(estadoPQRS);
 
-        pqrsRepo.save( pqrs );
+        pqrsRepo.save(pqrs);
     }
 
     @Override
-    public List<ItemCitaAdminDTO> listarCitas() throws Exception {
+    public List<CitaDTOAdmin> listarCitas() throws Exception {
 
         List<Cita> citas = citaRepo.findAll();
-        List<ItemCitaAdminDTO> respuesta = new ArrayList<>();
+        List<CitaDTOAdmin> respuesta = new ArrayList<>();
 
-        if(citas.isEmpty()){
+        if (citas.isEmpty()) {
             throw new Exception("No existen citas creadas");
         }
 
-        for( Cita c : citas ){
-            respuesta.add( new ItemCitaAdminDTO(
+        for (Cita c : citas) {
+            respuesta.add(new CitaDTOAdmin(
                     c.getCodigo(),
                     c.getPaciente().getCedula(),
                     c.getPaciente().getNombre(),
-                    c.getMedico().getNombre(),
                     c.getMedico().getEspecialidad(),
-                    c.getEstado(),
-                    c.getFechaCita()
-            ) );
+                    c.getFechaCita(),
+                    c.getMotivo()
+
+            ));
         }
 
         return respuesta;
@@ -270,5 +270,5 @@ public DetalleMedicoDTO obenterMedico (int codigo) throws Exception{
 
 
 
-}
+
 

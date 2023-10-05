@@ -2,9 +2,7 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 
-import co.edu.uniquindio.proyecto.dto.HorarioMedico;
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
-import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +16,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Medico extends Usuario implements Serializable {
+
+    private String nombreMedico;
 
     private Especialidad Especialidad;
 
