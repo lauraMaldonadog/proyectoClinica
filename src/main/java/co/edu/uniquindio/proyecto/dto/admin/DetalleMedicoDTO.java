@@ -1,6 +1,5 @@
 package co.edu.uniquindio.proyecto.dto.admin;
 
-import co.edu.uniquindio.proyecto.dto.HorarioDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 

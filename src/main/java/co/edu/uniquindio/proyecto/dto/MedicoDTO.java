@@ -1,5 +1,7 @@
 package co.edu.uniquindio.proyecto.dto;
 
+import co.edu.uniquindio.proyecto.dto.admin.HorarioDTO;
+
 import java.util.List;
 
 public record MedicoDTO(
@@ -11,6 +13,6 @@ public record MedicoDTO(
         String telefono,
         String correo,
         String password,
-        List< HorarioDTO > horarios
+        List<HorarioDTO> horarios
 ) {
 }

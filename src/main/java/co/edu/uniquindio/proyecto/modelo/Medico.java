@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 
+import co.edu.uniquindio.proyecto.dto.HorarioMedico;
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import jakarta.persistence.*;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Medico extends Usuario implements Serializable {
 
-    private Especialidad codigoEspecialidad;
+    private Especialidad Especialidad;
 
     @OneToMany(mappedBy = "codigoMedico")
     private List<Horario> listaHorario;

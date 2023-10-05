@@ -34,7 +34,7 @@ public class Usuario extends Cuenta implements Serializable {
     private String urlFoto;
 
     @Column(nullable = false, length = 15)
-    private Ciudad codigoCiudad;
+    private Ciudad ciudad;
 
     private EstadoUsuario estadoUsuario;
 }

@@ -24,10 +24,12 @@ public class PQRS implements Serializable {
 
     private String tipo;
 
+    private EstadoPQRS estado;
+
     private String motivo;
 
     @ManyToOne
-    private Cita codigoCita;
+    private Cita cita;
 
     private EstadoPQRS codigoEstado;
 }

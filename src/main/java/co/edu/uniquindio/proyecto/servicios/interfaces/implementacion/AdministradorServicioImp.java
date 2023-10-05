@@ -62,7 +62,6 @@ public class AdministradorServicioImp implements AdministradorServicios {
     }
 
 
-    @Override
     public String actualizarMedico(MedicoDTO medicoDTO) throws Exception {
 
         Optional <Medico> optional = medicoRepository.findById(medicoDTO.codigo());
