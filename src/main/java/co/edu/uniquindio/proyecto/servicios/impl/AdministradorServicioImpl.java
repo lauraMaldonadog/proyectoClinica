@@ -4,6 +4,7 @@ import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.dto.admin.DetalleMedicoDTO;
 import co.edu.uniquindio.proyecto.dto.admin.HorarioDTO;
 import co.edu.uniquindio.proyecto.dto.admin.ItemCitaAdminDTO;
+import co.edu.uniquindio.proyecto.dto.admin.ItemMedicoDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoPQRS;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.modelo.*;
@@ -76,7 +77,11 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         }
     }
 
-    private int actualizarMedico(DetalleMedicoDTO medicoDTO) throws Exception {
+    public CitaRepository getCitaRepo() {
+        return citaRepo;
+    }
+
+    public int actualizarMedico(DetalleMedicoDTO medicoDTO) throws Exception {
 
         Optional<Medico> opcional = medicoRepo.findById(medicoDTO.codigo());
         if (opcional.isEmpty()) {
@@ -108,13 +113,13 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         medicoRepo.save(buscado);
     }
 
-    List<Medico> listaMedicos() throws Exception {
+    List<ItemMedicoDTO> listarMedicos() throws Exception {
         List<Medico> medicos = medicoRepo.findAll();
         if (medicos.isEmpty()) {
             throw new Exception("No hay medicos registrados");
         }
 
-        List<Medico> respuesta = new ArrayList<>();
+        List<ItemMedicoDTO> respuesta = new ArrayList<>();
         for (Medico m : medicos) {
             m.getCodigo();
             m.getNombre();
