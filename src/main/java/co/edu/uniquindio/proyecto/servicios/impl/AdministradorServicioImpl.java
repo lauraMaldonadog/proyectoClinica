@@ -113,12 +113,11 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         medicoRepo.save(buscado);
     }
 
-    List<ItemMedicoDTO> listarMedicos() throws Exception {
+    public List<ItemMedicoDTO> listaMedicos() throws Exception {
         List<Medico> medicos = medicoRepo.findAll();
         if (medicos.isEmpty()) {
             throw new Exception("No hay medicos registrados");
         }
-
         List<ItemMedicoDTO> respuesta = new ArrayList<>();
         for (Medico m : medicos) {
             m.getCodigo();
@@ -131,7 +130,7 @@ public class AdministradorServicioImpl implements AdministradorServicios {
     }
 
     @Override
-    public  InfoMedicoDTO  obenterMedico(int codigo) throws Exception {
+    public  InfoMedicoDTO  obtenerMedico(int codigo) throws Exception {
         Optional<Medico> optional = medicoRepo.findById(codigo);
 
         if (optional.isEmpty()) {

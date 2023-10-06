@@ -14,7 +14,7 @@ public interface AdministradorServicios {
 
     void eliminarMedico(int codigo) throws Exception;
 
-    List<ItemMedicoDTO> listarMedicos() throws Exception;
+    List<ItemMedicoDTO> listaMedicos() throws Exception;
 
     InfoMedicoDTO obtenerMedico(int codigo) throws Exception;
 
