@@ -1,8 +1,8 @@
 package co.edu.uniquindio.proyecto.dto;
 
-import co.edu.uniquindio.proyecto.modelo.Ciudad;
-import co.edu.uniquindio.proyecto.modelo.EPS;
-import co.edu.uniquindio.proyecto.modelo.TipoSangre;
+import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
+import co.edu.uniquindio.proyecto.enumeraciones.EPS;
+import co.edu.uniquindio.proyecto.enumeraciones.TipoSangre;
 
 import java.time.LocalDate;
 

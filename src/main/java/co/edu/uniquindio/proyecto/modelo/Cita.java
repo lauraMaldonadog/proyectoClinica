@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.modelo;
 
+import co.edu.uniquindio.proyecto.enumeraciones.EstadoCita;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class Cita implements Serializable {
     private Paciente paciente;
 
     @ManyToOne
-    private Medico codMedico;
+    private Medico medico;
 
     private EstadoCita estadoCita;
 

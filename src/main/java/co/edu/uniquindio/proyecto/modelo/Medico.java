@@ -2,8 +2,8 @@ package co.edu.uniquindio.proyecto.modelo;
 
 
 
+import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Medico extends Usuario implements Serializable {
 
-    private Especialidad codigoEspecialidad;
+    private String nombreMedico;
+
+    private Especialidad Especialidad;
 
     @OneToMany(mappedBy = "codigoMedico")
     private List<Horario> listaHorario;
