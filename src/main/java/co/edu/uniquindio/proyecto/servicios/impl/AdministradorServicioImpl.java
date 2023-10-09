@@ -1,10 +1,8 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.*;
-import co.edu.uniquindio.proyecto.dto.admin.DetalleMedicoDTO;
-import co.edu.uniquindio.proyecto.dto.admin.HorarioDTO;
-import co.edu.uniquindio.proyecto.dto.admin.ItemCitaAdminDTO;
-import co.edu.uniquindio.proyecto.dto.admin.ItemMedicoDTO;
+import co.edu.uniquindio.proyecto.dto.RegistroMedicoDTO;
+import co.edu.uniquindio.proyecto.dto.admin.*;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoPQRS;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.modelo.*;
@@ -270,6 +268,8 @@ public class AdministradorServicioImpl implements AdministradorServicios {
 
         return respuesta;
     }
+
+
 }
 
 

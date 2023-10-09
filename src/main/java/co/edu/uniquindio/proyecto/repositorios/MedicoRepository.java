@@ -17,4 +17,6 @@ public interface MedicoRepository extends JpaRepository <Medico, Integer> {
 
 
 
+
+
 }
