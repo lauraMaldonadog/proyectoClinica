@@ -4,16 +4,19 @@ import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
 import co.edu.uniquindio.proyecto.dto.EmailDTO;
 import co.edu.uniquindio.proyecto.dto.InfoPQRSDTO;
 import co.edu.uniquindio.proyecto.dto.PacienteDTO;
+import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
+import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PacienteServicios {
-    String registrarse(PacienteDTO paciente) throws Exception;
 
-    String editarPerfil(PacienteDTO paciente) throws Exception;
+    int registrarse(RegistroPacienteDTO pacienteDTO) throws Exception;
 
-    String eliminarCuenta(PacienteDTO paciente) throws Exception;
+    int editarPerfil(DetallePacienteDTO pacienteDTO) throws Exception;
+
+    String eliminarCuenta(DetallePacienteDTO pacienteDTO) throws Exception;
 
     EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception;
 
