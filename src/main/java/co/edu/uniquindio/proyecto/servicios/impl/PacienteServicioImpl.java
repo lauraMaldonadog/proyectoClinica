@@ -4,58 +4,49 @@ package co.edu.uniquindio.proyecto.servicios.impl;
 import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
 import co.edu.uniquindio.proyecto.dto.EmailDTO;
 import co.edu.uniquindio.proyecto.dto.InfoPQRSDTO;
-import co.edu.uniquindio.proyecto.dto.PacienteDTO;
+import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
-import co.edu.uniquindio.proyecto.modelo.Medico;
+import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
 import co.edu.uniquindio.proyecto.modelo.Paciente;
 import co.edu.uniquindio.proyecto.repositorios.PacienteRepository;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PacienteServicios;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class PacienteServicioImpl implements PacienteServicios {
 
     private final PacienteRepository pacienteRepo;
 
-
+    public PacienteServicioImpl(PacienteRepository pacienteRepo) {
+        this.pacienteRepo = pacienteRepo;
+    }
 
     @Override
     public int registrarse(RegistroPacienteDTO pacienteDTO) throws Exception {
         if (cedulaRepetida(pacienteDTO.cedula())) {
-            throw new Exception("La cedula " + pacienteDTO.cedula() + " ya esta en uso");
+            throw new Exception("La cedula " + pacienteDTO.cedula() + " ya está en uso");
         }
         if (correoRepetido(pacienteDTO.correo())) {
-            throw new Exception("El correo " + pacienteDTO.correo() + " ya esta en uso.");
+            throw new Exception("El correo " + pacienteDTO.correo() + " ya está en uso.");
         }
 
         Paciente paciente = new Paciente();
 
-        paciente.setCedula(pacienteDTO.cedula());
-        paciente.setNombre(pacienteDTO.nombre());
-        paciente.setTelefono(pacienteDTO.telefono());
-        paciente.setUrlFoto(pacienteDTO.urlFoto());
-        paciente.setCiudad(pacienteDTO.ciudad());
-        paciente.setFechaNacimiento(pacienteDTO.fechaNacimiento());
-        paciente.setAlergias(pacienteDTO.alergias());
-        paciente.setCodigoEps(pacienteDTO.eps());
-        paciente.setCodigoTipoSangre(pacienteDTO.tipoSangre());
-        paciente.setCorreo(pacienteDTO.correo());
-        paciente.setPassword(pacienteDTO.password());
+        // Llamar al método de apoyo para establecer los valores comunes del paciente
+        establecerValoresComunesPaciente(paciente, pacienteDTO);
 
         paciente.setEstadoUsuario(EstadoUsuario.ACTIVO);
 
         Paciente nuevoPaciente = pacienteRepo.save(paciente);
-
 
         return paciente.getCodigo();
     }
@@ -68,33 +59,24 @@ public class PacienteServicioImpl implements PacienteServicios {
         return pacienteRepo.findByCedula(cedula) != null;
     }
 
-
-
-
     @Override
     public int editarPerfil(DetallePacienteDTO pacienteDTO) throws Exception {
-
         Optional<Paciente> opcional = pacienteRepo.findById(pacienteDTO.codigo());
         if (opcional.isEmpty()) {
-            throw new Exception("El paciente con el codigo " + pacienteDTO.codigo() + " no existe");
+            throw new Exception("El paciente con el código " + pacienteDTO.codigo() + " no existe");
         }
 
         Paciente buscado = opcional.get();
-        buscado.setCedula(pacienteDTO.cedula());
-        buscado.setNombre(pacienteDTO.nombre());
-        buscado.setTelefono(pacienteDTO.telefono());
-        buscado.setUrlFoto(pacienteDTO.urlFoto());
-        buscado.setCiudad(pacienteDTO.ciudad());
-        buscado.setFechaNacimiento(pacienteDTO.fechaNacimiento());
-        buscado.setAlergias(pacienteDTO.alergias());
-        buscado.setCodigoEps(pacienteDTO.eps());
-        buscado.setCodigoTipoSangre(pacienteDTO.tipoSangre());
+
+        // Llamar al método de apoyo para establecer los valores comunes del paciente
+        establecerValoresComunesPaciente(buscado, pacienteDTO);
 
         pacienteRepo.save(buscado);
 
         return buscado.getCodigo();
-
     }
+
+
 
     @Override
     public String eliminarCuenta(DetallePacienteDTO pacienteDTO) throws Exception {
@@ -107,10 +89,14 @@ public class PacienteServicioImpl implements PacienteServicios {
         }
 
         Paciente buscado = optional.get();
+
+        // Cambiar el estado del paciente a INACTIVO en lugar de eliminar físicamente
         buscado.setEstadoUsuario(EstadoUsuario.INACTIVO);
         pacienteRepo.save(buscado);
+
         return respuesta;
     }
+
 
     @Override
     public EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception {
@@ -166,4 +152,63 @@ public class PacienteServicioImpl implements PacienteServicios {
     public CitaDTOPaciente verDetalleCita(int codigoCita) throws Exception {
         return null;
     }
+    @Override
+    public DetallePacienteDTO verDetallePaciente(int codigo) {
+        Optional<Paciente> optional = pacienteRepo.findById(codigo);
+        if (optional.isEmpty()) {
+            throw new ResourceNotFoundException("El paciente con el código " + codigo + " no existe");
+        }
+
+        Paciente paciente = optional.get();
+        //Hacemos un mapeo de un objeto de tipo Paciente a un objeto de tipo DetallePacienteDTO
+        return new DetallePacienteDTO( paciente.getCodigo(), paciente.getCedula(),
+                paciente.getNombre(), paciente.getTelefono(), paciente.getUrlFoto(), paciente.getCiudad(),
+                paciente.getFechaNacimiento(), paciente.getAlergias(), paciente.getCodigoEps(),
+                paciente.getCodigoTipoSangre(), paciente.getCorreo() );
+
+
+    }
+
+    @Override
+    public List<ItemPacienteDTO> listarTodos(){
+        List<Paciente> pacientes = pacienteRepo.findAll();
+        List<ItemPacienteDTO> repuesta = new ArrayList<>();
+        for (Paciente paciente : pacientes) {
+            repuesta.add( new ItemPacienteDTO( paciente.getCodigo(), paciente.getCedula(),
+                    paciente.getNombre(), paciente.getCiudad() ) );
+        }
+        return repuesta;
+    }
+
+    private void establecerValoresComunesPaciente(Paciente paciente, RegistroPacienteDTO pacienteDTO) {
+        paciente.setCedula(pacienteDTO.cedula());
+        paciente.setNombre(pacienteDTO.nombre());
+        paciente.setTelefono(pacienteDTO.telefono());
+        paciente.setUrlFoto(pacienteDTO.urlFoto());
+        paciente.setCiudad(pacienteDTO.ciudad());
+        paciente.setFechaNacimiento(pacienteDTO.fechaNacimiento());
+        paciente.setAlergias(pacienteDTO.alergias());
+        paciente.setCodigoEps(pacienteDTO.eps());
+        paciente.setCodigoTipoSangre(pacienteDTO.tipoSangre());
+        paciente.setCorreo(pacienteDTO.correo());
+    }
+
+    private void establecerValoresComunesPaciente(Paciente paciente, DetallePacienteDTO pacienteDTO) {
+        paciente.setCedula(pacienteDTO.cedula());
+        paciente.setNombre(pacienteDTO.nombre());
+        paciente.setTelefono(pacienteDTO.telefono());
+        paciente.setUrlFoto(pacienteDTO.urlFoto());
+        paciente.setCiudad(pacienteDTO.ciudad());
+        paciente.setFechaNacimiento(pacienteDTO.fechaNacimiento());
+        paciente.setAlergias(pacienteDTO.alergias());
+        paciente.setCodigoEps(pacienteDTO.eps());
+        paciente.setCodigoTipoSangre(pacienteDTO.tipoSangre());
+        paciente.setCorreo(pacienteDTO.correo());
+    }
+
+
+
+
+
+
 }
