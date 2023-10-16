@@ -13,6 +13,7 @@ public class EmailServicioTest {
 
 @Autowired
     private EmailServicios emailServicios;
+
     private final JavaMailSender javaMailSender;
 
     EmailDTO emailDTO = new EmailDTO("juanm.londonom@uqvirtual.edu.co", "Prueba 1", "Hola");
