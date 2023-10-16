@@ -1,24 +1,23 @@
-package co.edu.uniquindio.proyecto.servicios.impl;
-
 import co.edu.uniquindio.proyecto.dto.EmailDTO;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicios;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+@Component
 
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class EmailServicioImpl implements EmailServicios {
+public class EmailServicioTest {
 
+@Autowired
+    private EmailServicios emailServicios;
     private final JavaMailSender javaMailSender;
 
-    @Override
+    EmailDTO emailDTO = new EmailDTO("juanm.londonom@uqvirtual.edu.co", "Prueba 1", "Hola");
+
+    @Test
     public void enviarCorreo(EmailDTO emailDTO) throws Exception {
 
         MimeMessage mensaje = javaMailSender.createMimeMessage();
@@ -26,7 +25,9 @@ public class EmailServicioImpl implements EmailServicios {
         helper.setSubject(emailDTO.asunto());
         helper.setText(emailDTO.mensaje(), true);
         helper.setTo(emailDTO.para());
-        helper.setFrom("no_reply@dominio.com");
+        helper.setFrom("clinicasaludyvida515@gmail.com");
         javaMailSender.send(mensaje);
     }
+
+
 }
