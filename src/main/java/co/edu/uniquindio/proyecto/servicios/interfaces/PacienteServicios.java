@@ -3,7 +3,7 @@ package co.edu.uniquindio.proyecto.servicios.interfaces;
 import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
 import co.edu.uniquindio.proyecto.dto.EmailDTO;
 import co.edu.uniquindio.proyecto.dto.InfoPQRSDTO;
-import co.edu.uniquindio.proyecto.dto.PacienteDTO;
+import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
 
@@ -38,4 +38,7 @@ public interface PacienteServicios {
 
     CitaDTOPaciente verDetalleCita(int codigoCita) throws Exception;
 
+    DetallePacienteDTO verDetallePaciente(int codigo) throws Exception;
+
+    List<ItemPacienteDTO> listarTodos();
 }

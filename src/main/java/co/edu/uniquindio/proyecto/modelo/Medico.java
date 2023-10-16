@@ -24,7 +24,7 @@ public class Medico extends Usuario implements Serializable {
     @OneToMany(mappedBy = "codigoMedico")
     private List<Horario> listaHorario;
 
-    @OneToMany(mappedBy = "codMedico")
+    @OneToMany(mappedBy = "medico")
     private List<Cita> listaCitas;
 
     @OneToMany(mappedBy = "codigoMedico")
