@@ -1,9 +1,11 @@
+import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
 import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.EPS;
 import co.edu.uniquindio.proyecto.enumeraciones.TipoSangre;
+import co.edu.uniquindio.proyecto.modelo.Cita;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PacienteServicios;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,12 +14,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
 public class PacienteServicioTest {
     @Autowired
-        private PacienteServicios pacienteServicio;
+    private PacienteServicios pacienteServicio;
 
     @Test
     public void registrarTest() throws Exception {
@@ -43,8 +47,8 @@ public class PacienteServicioTest {
     }
 
     @Test
-    @Sql("classpath:dataset.sql" )
-    public void actualizarTest() throws Exception{
+    @Sql("classpath:dataset.sql")
+    public void actualizarTest() throws Exception {
 //Para actualizar el paciente primero lo obtenemos
         DetallePacienteDTO guardado = pacienteServicio.verDetallePaciente(1);
 //Le modificamos el número de teléfono, lo demás lo dejamos igual
@@ -69,7 +73,7 @@ public class PacienteServicioTest {
     }
 
     @Test
-    @Sql("classpath:dataset.sql" )
+    @Sql("classpath:dataset.sql")
     public void eliminarTest() throws Exception {
         // Obtener el DetallePacienteDTO del paciente que deseas eliminar
         DetallePacienteDTO pacienteAEliminar = pacienteServicio.verDetallePaciente(1);
@@ -83,9 +87,10 @@ public class PacienteServicioTest {
         // Verificar que el paciente se ha eliminado
         Assertions.assertThrows(Exception.class, () -> pacienteServicio.verDetallePaciente(1));
     }
+
     @Test
-    @Sql("classpath:dataset.sql" )
-    public void listarTest(){
+    @Sql("classpath:dataset.sql")
+    public void listarTest() {
 //Obtenemos la lista de todos los pacientes
         List<ItemPacienteDTO> lista = pacienteServicio.listarTodos();
         for (ItemPacienteDTO paciente : lista) {
@@ -93,6 +98,37 @@ public class PacienteServicioTest {
         }
 //Si en el dataset creamos 2 pacientes, entonces el tamaño de la lista debe ser 2
         Assertions.assertEquals(2, lista.size());
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public List<CitaDTOPaciente> filtrarCitasPorFecha() throws Exception {
+
+        String fecha1 = "2023-11-15T10:30:00";
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaF1 = LocalDateTime.parse(fecha1, formatter1);
+
+        String fecha2 = "2023-11-15T10:30:00";
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaF2 = LocalDateTime.parse(fecha1, formatter2);
+
+        String fecha3 = "2023-11-15T10:30:00";
+        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaF3 = LocalDateTime.parse(fecha1, formatter3);
+
+        String fechaBuscar = "2023-10-16T12:30:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaDesdeTexto = LocalDateTime.parse(fechaBuscar, formatter);
+
+        CitaDTOPaciente c1 = new CitaDTOPaciente(01,"Pedro", fechaF1, "Dolor de cabeza");
+
+        CitaDTOPaciente c2 = new CitaDTOPaciente(02,"Andres", fechaF2, "Dolor de panza");
+
+        CitaDTOPaciente c3 = new CitaDTOPaciente(03,"Andrea", fechaF3, "Dolor de pierna");
+
+
+
+        return null;
     }
 
 }

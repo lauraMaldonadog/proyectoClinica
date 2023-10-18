@@ -9,7 +9,9 @@ import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
+import co.edu.uniquindio.proyecto.modelo.Cita;
 import co.edu.uniquindio.proyecto.modelo.Paciente;
+import co.edu.uniquindio.proyecto.repositorios.CitaRepository;
 import co.edu.uniquindio.proyecto.repositorios.PacienteRepository;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PacienteServicios;
 import jakarta.transaction.Transactional;
@@ -25,9 +27,11 @@ import java.util.Optional;
 public class PacienteServicioImpl implements PacienteServicios {
 
     private final PacienteRepository pacienteRepo;
+    private final CitaRepository citaRepo;
 
-    public PacienteServicioImpl(PacienteRepository pacienteRepo) {
+    public PacienteServicioImpl(PacienteRepository pacienteRepo, CitaRepository citaRepo) {
         this.pacienteRepo = pacienteRepo;
+        this.citaRepo = citaRepo;
     }
 
     @Override
@@ -100,17 +104,24 @@ public class PacienteServicioImpl implements PacienteServicios {
 
     @Override
     public EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception {
+
+
+
         return null;
     }
 
     @Override
-    public String cambiarPassword(String contraseñaActual, String nuevaContrasenia) throws Exception {
+    public String cambiarPassword(String contraseniaActual, String nuevaContrasenia) throws Exception {
 
-       /* String respuesta = "Su contraseña ha sido cambiada";*/
+        String respuesta = "Su contraseña ha sido cambiada";
 
+        if (contraseniaActual.equals(nuevaContrasenia)){
 
+            throw new Exception("Las contrasenias con iguales");
 
-        return null;
+        }
+
+        return respuesta;
     }
 
     @Override
@@ -125,32 +136,112 @@ public class PacienteServicioImpl implements PacienteServicios {
 
     @Override
     public List<InfoPQRSDTO> listarPQRSPaciente() throws Exception {
+
+
+
         return null;
     }
 
     @Override
     public String responderPQRS(int codigoPQRS, String mensaje) {
+
+
+
         return null;
     }
 
     @Override
     public List<CitaDTOPaciente> listarCitasPaciente() throws Exception {
+
+        List<Cita> listaCitas = citaRepo.findAll();
+
+        List<CitaDTOPaciente> respuesta = new ArrayList<>();
+
+        for (Cita c: listaCitas ) {
+
+            respuesta.add( new CitaDTOPaciente(
+                    c.getCodigo(),
+                    c.getMedico().getNombreMedico(),
+                    c.getFechaCita(),
+                    c.getMotivo()
+            ));
+
+        }
+
         return null;
     }
 
     @Override
     public List<CitaDTOPaciente> filtrarCitasPorFecha(LocalDateTime fechaFiltrar) throws Exception {
-        return null;
+
+        List<Cita> listaCitas = citaRepo.findByFecha(fechaFiltrar);
+
+        List<CitaDTOPaciente> respuesta = new ArrayList<>();
+
+        if (listaCitas.isEmpty()){
+
+            throw new Exception("No hay citas para esa fecha");
+        }
+
+        for (Cita c: listaCitas) {
+
+            respuesta.add(new CitaDTOPaciente(
+                  c.getCodigo(),
+                  c.getMedico().getNombreMedico(),
+                  c.getFechaCita(),
+                  c.getMotivo()
+            ));
+
+        }
+        return respuesta;
     }
 
     @Override
     public List<CitaDTOPaciente> filtrarCitasPorMedico(String nombreMedicoFiltrar) throws Exception {
-        return null;
+
+        List<Cita> listaCitas = citaRepo.findByMedico(nombreMedicoFiltrar);
+
+        List<CitaDTOPaciente> respuesta = new ArrayList<>();
+
+        if (listaCitas.isEmpty()){
+
+            throw new Exception("No hay citas para esa fecha");
+        }
+
+        for (Cita c: listaCitas) {
+
+            respuesta.add(new CitaDTOPaciente(
+                    c.getCodigo(),
+                    c.getMedico().getNombreMedico(),
+                    c.getFechaCita(),
+                    c.getMotivo()
+            ));
+
+        }
+        return respuesta;
     }
 
     @Override
     public CitaDTOPaciente verDetalleCita(int codigoCita) throws Exception {
-        return null;
+
+        /*Cita citaBuscada = citaRepo.findByCodigo(codigoCita);*/
+
+        Optional<Cita> optional = citaRepo.findById(codigoCita);
+
+        if (optional.isEmpty()) {
+            throw new Exception("No hay citas que coincidan con el codigo ingresado");
+        }
+
+        Cita buscado = optional.get();
+
+
+
+        return new CitaDTOPaciente(
+                buscado.getCodigo(),
+                buscado.getMedico().getNombreMedico(),
+                buscado.getFechaCita(),
+                buscado.getMotivo()
+        );
     }
     @Override
     public DetallePacienteDTO verDetallePaciente(int codigo) {

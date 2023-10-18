@@ -4,6 +4,7 @@ import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,16 @@ public class EmailServicioTest {
 @Autowired
     private EmailServicios emailServicios;
 
-    private final JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender = new JavaMailSenderImpl();
 
-    EmailDTO emailDTO = new EmailDTO("juanm.londonom@uqvirtual.edu.co", "Prueba 1", "Hola");
+
+
+
 
     @Test
-    public void enviarCorreo(EmailDTO emailDTO) throws Exception {
+    public void enviarCorreo() throws Exception {
+
+        EmailDTO emailDTO = new EmailDTO("juanm.londonom@uqvirtual.edu.co", "Prueba 1", "Hola");
 
         MimeMessage mensaje = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mensaje);
