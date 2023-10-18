@@ -1,3 +1,5 @@
+package co.edu.uniquindio.proyecto;
+
 import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
 import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;

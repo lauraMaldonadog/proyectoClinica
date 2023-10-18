@@ -11,9 +11,9 @@ import java.util.List;
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
 
-    List<Cita> findByFecha(LocalDateTime fecha);
+    List<Cita> findByFechaCita(LocalDateTime fecha);
 
-    List<Cita> findByMedico(String nombreMedico);
+    List<Cita> findByMedicoNombre(String nombreMedico);
 
     Cita findByCodigo(int codigo);
 

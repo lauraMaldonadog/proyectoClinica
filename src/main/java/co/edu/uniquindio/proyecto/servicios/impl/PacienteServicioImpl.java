@@ -174,7 +174,7 @@ public class PacienteServicioImpl implements PacienteServicios {
     @Override
     public List<CitaDTOPaciente> filtrarCitasPorFecha(LocalDateTime fechaFiltrar) throws Exception {
 
-        List<Cita> listaCitas = citaRepo.findByFecha(fechaFiltrar);
+        List<Cita> listaCitas = citaRepo.findByFechaCita(fechaFiltrar);
 
         List<CitaDTOPaciente> respuesta = new ArrayList<>();
 
@@ -199,7 +199,7 @@ public class PacienteServicioImpl implements PacienteServicios {
     @Override
     public List<CitaDTOPaciente> filtrarCitasPorMedico(String nombreMedicoFiltrar) throws Exception {
 
-        List<Cita> listaCitas = citaRepo.findByMedico(nombreMedicoFiltrar);
+        List<Cita> listaCitas = citaRepo.findByMedicoNombre(nombreMedicoFiltrar);
 
         List<CitaDTOPaciente> respuesta = new ArrayList<>();
 
