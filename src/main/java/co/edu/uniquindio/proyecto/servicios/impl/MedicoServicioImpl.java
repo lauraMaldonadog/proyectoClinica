@@ -112,6 +112,10 @@ public class MedicoServicioImpl implements MedicoServicios {
             throw new Exception("No tiene citas atendidas");
         }
         List<CitaDTOMedico> listaAtendida = new ArrayList<>();
+
+
+
+
         /*for (CitaDTOMedico c : listaMedico ) {
             if (c.getEstadoCita().equals(EstadoCita.ATENDIDA || EstadoCita.CANCELADA)){
                 listaAtendida.add(c);

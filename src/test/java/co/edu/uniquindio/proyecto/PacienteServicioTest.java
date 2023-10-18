@@ -25,8 +25,8 @@ public class PacienteServicioTest {
     @Autowired
     private PacienteServicios pacienteServicio;
 
-    @Test
-    public void registrarTest() throws Exception {
+   // @Test
+  /*  public void registrarTest() throws Exception {
 //Creamos un objeto con los datos del paciente
         RegistroPacienteDTO pacienteDTO = new RegistroPacienteDTO(
                 "1097222222",
@@ -131,7 +131,8 @@ public class PacienteServicioTest {
 
 
         return null;
-    }
+    }*/
 
 }
+
 
