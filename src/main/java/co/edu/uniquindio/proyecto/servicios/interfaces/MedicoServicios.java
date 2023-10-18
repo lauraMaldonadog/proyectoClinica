@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface MedicoServicios {
     List<CitaDTOMedico> citasPendientes() throws Exception;
-    AtencionCitaDTOMedico atenderCitas(int codigoCita) throws Exception;
-    List<CitaDTOMedico> listarCitasPacientes();
+    void atenderCitas(AtencionCitaDTOMedico atencionCitaDTOMedico) throws Exception;
+    List<CitaDTOMedico> listarCitasPacientes() throws Exception;
     String agendarDiaLibre(CitaDTOMedico cita) throws Exception;
-    List<CitaDTOMedico> listarCitasRealizadasMedico();
+    List<CitaDTOMedico> listarCitasRealizadasMedico() throws Exception;
 }

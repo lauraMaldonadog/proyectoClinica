@@ -3,7 +3,7 @@ package co.edu.uniquindio.proyecto.dto;
 import co.edu.uniquindio.proyecto.modelo.Cita;
 
 public record AtencionCitaDTOMedico(
-        int codigo,
+        int codigoCita,
 
         String diagnotisco,
 
@@ -11,7 +11,5 @@ public record AtencionCitaDTOMedico(
         String tratamiento,
 
 
-        String notasMedicas,
-
-        Cita cita) {
+        String notasMedicas) {
 }

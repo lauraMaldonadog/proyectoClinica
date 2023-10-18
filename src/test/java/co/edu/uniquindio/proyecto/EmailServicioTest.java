@@ -20,7 +20,7 @@ public class EmailServicioTest {
     @Test
     public void enviarCorreo() throws Exception {
 
-        EmailDTO emailDTO = new EmailDTO("juanm.londonom@uqvirtual.edu.co", "Prueba 1", "Hola");
+        EmailDTO emailDTO = new EmailDTO("estebanj.ortegat@uqvirtual.edu.co", "Prueba 1", "HolaMundo");
 
         emailServicios.enviarCorreo(emailDTO);
     }

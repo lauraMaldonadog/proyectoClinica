@@ -22,7 +22,7 @@ public interface PacienteServicios {
 
     String cambiarPassword(String contraseñaActual, String nuevaContrasenia) throws Exception;
 
-    String agendarCita(CitaDTOPaciente cita) throws Exception;
+    int agendarCita(CitaDTOPaciente cita) throws Exception;
 
     String crearPQRS(InfoPQRSDTO pqrsdto);
 
@@ -30,7 +30,7 @@ public interface PacienteServicios {
 
     String responderPQRS(int codigoPQRS, String mensaje); //Pendiente
 
-    List<CitaDTOPaciente> listarCitasPaciente() throws Exception;
+    List<CitaDTOPaciente> listarCitasPaciente(int codigo) throws Exception;
 
     List<CitaDTOPaciente> filtrarCitasPorFecha(LocalDateTime fechaFiltrar) throws Exception;
 

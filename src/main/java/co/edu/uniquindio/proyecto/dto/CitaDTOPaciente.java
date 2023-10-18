@@ -3,11 +3,8 @@ package co.edu.uniquindio.proyecto.dto;
 import java.time.LocalDateTime;
 
 public record CitaDTOPaciente(
-        int codigoCita,
-
-       /* Pendiente
-        String nombrePaciente,*/
-        String nombreMedico,
+        int codigoPaciente,
+        int codigoMedico,
         LocalDateTime fecha,
         String motivo
 
