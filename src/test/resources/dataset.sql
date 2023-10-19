@@ -22,6 +22,7 @@ insert into Medico values('547852169', 1, 1,'Diego Alexander', '5478453321', 'ur
 insert into Medico values('754862315', 1, 1,'Andres Esteban', '3215744862', 'url_foto', 1, 9);
 insert into Medico values('458756321', 1, 1,'Andres Felipe', '3102574865', 'url_foto', 1, 10);
 
+
 insert into Cita values (1, 1, '2023-10-25 10:20:00', '2023-10-28 11:20:00', 'Baricela', 6, 1);
 insert into Cita values (2, 1, '2023-10-25 10:35:00', '2023-10-29 15:40:00', 'Caries', 7, 2);
 insert into Cita values (3, 1, '2023-10-23 8:30:00', '2023-10-25 11:55:00', 'Dolor de estomago', 8, 3);
