@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.yaml.snakeyaml.events.Event;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class Cita implements Serializable {
     @Id
     @Lob
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
 
     @Column(nullable = false)

@@ -13,6 +13,7 @@ public record MedicoDTO(
         String telefono,
         String correo,
         String password,
-        List<HorarioDTO> horarios
+        List<HorarioDTO> horarios,
+        List<HorarioDTO> diaLibre
 ) {
 }

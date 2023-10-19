@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface HorarioRepository extends JpaRepository<Horario, Integer> {
 
 
+
+
 }

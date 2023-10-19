@@ -1,7 +1,5 @@
 package co.edu.uniquindio.proyecto.modelo;
 
-
-
 import co.edu.uniquindio.proyecto.enumeraciones.Especialidad;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -31,4 +29,3 @@ public class Medico extends Usuario implements Serializable {
     private List<DiaLibre> diaLibres;
 
 }
-

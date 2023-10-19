@@ -30,22 +30,22 @@ public class MedicoServicioImpl implements MedicoServicios {
     private final AtencionCitaRepo atencionCitaRepo;
 
     @Override
-    public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para hoy
-        List<Cita> citas = citaRepo.findAll();
-        List<CitaDTOMedico> listaCitasMedicoDia= new ArrayList<>();
+    public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para
+        List<Cita> citas = citaRepo.findAll();                              // atender el mismo dia
+        List<CitaDTOMedico> listaCitasMedicoDia = new ArrayList<>();
 
-        if (citas.isEmpty()){
+        if (citas.isEmpty()) {
             throw new Exception("No hay citas para hoy");
         }
 
-        for (Cita c: citas) {
-            if (c.getFechaCita().isAfter( LocalDateTime.now() )) {
-                listaCitasMedicoDia.add( new CitaDTOMedico(
+        for (Cita c : citas) {
+            if (c.getFechaCita().isAfter(LocalDateTime.now())) {          // Fecha
+                listaCitasMedicoDia.add(new CitaDTOMedico(
                         c.getCodigo(),
                         c.getPaciente().getNombre(),
                         c.getFechaCita(),
                         c.getMotivo()
-                )  );
+                ));
             }
         }
 
@@ -53,34 +53,36 @@ public class MedicoServicioImpl implements MedicoServicios {
     }
 
 
-
+    /*
+    Atender citas del dia
+     */
     @Override
     public void atenderCitas(AtencionCitaDTOMedico atencionCitaDTOMedico) throws Exception {                   //Atender cita
         Optional<Cita> optionalCita = citaRepo.findById(atencionCitaDTOMedico.codigoCita());
-        if (optionalCita.isEmpty()){
-            throw new Exception("No hay cita con el codigo:"+atencionCitaDTOMedico.codigoCita());
+        if (optionalCita.isEmpty()) {
+            throw new Exception("No hay cita con el codigo:" + atencionCitaDTOMedico.codigoCita());
         }
-
         AtencionCita atencionCita = new AtencionCita();
-        atencionCita.setCita( optionalCita.get() );
+        atencionCita.setCita(optionalCita.get());
         atencionCita.setTratamiento(atencionCita.getTratamiento());
         atencionCita.setDiagnotisco(atencionCita.getDiagnotisco());
         atencionCita.setNotasMedicas(atencionCita.getNotasMedicas());
         atencionCita.getCita().setEstadoCita(EstadoCita.ATENDIDA);
         atencionCitaRepo.save(atencionCita);
-
     }
 
+    /*
+    Visualizar las citas futuras
+     */
 
-    public List<CitaDTOMedico> listarCitasPacientes() throws Exception {          // lista de citas futuras
+    public List<CitaDTOMedico> listarCitasPacientes() throws Exception {
         List<Cita> citas = citaRepo.findAll();
-        List<CitaDTOMedico> listaCitasMedicoFuturas= new ArrayList<>();
-        Cita horaCita=null;
+        List<CitaDTOMedico> listaCitasMedicoFuturas = new ArrayList<>();
 
-        if (citas.isEmpty()){
+        if (citas.isEmpty()) {
             throw new Exception("No hay citas programadas");
         }
-        for (Cita c: citas) {
+        for (Cita c : citas) {
             c.getCodigo();
             c.getPaciente().getNombre();
             c.getFechaCita();
@@ -89,39 +91,48 @@ public class MedicoServicioImpl implements MedicoServicios {
         return listaCitasMedicoFuturas;
     }
 
-    public String agendarDiaLibre(CitaDTOMedico cita) throws Exception{
-        Cita listaCitas;
+    /*
+    Agendar el dia libre para el medico
+     */
+    public String agendarDiaLibre(CitaDTOMedico cita) throws Exception {
+        int cont = 0;
         List<Cita> citaList = citaRepo.findAll();
-        LocalDate fechaReceso = LocalDate.of(2023,11,30);
-        LocalDate fechaHoy = LocalDate.now();
-        if (fechaReceso.equals(fechaHoy)){
+        List<LocalDate> diaLibre = new ArrayList<>();
+        LocalDate fechaReceso = LocalDate.of(2023, 11, 30);
+        if (fechaReceso.equals(LocalDateTime.now())) {
             throw new Exception("Hoy no puede solicitar receso.\nTiene que solicitar con anticipacion.");
         }
-        for (Cita l : citaList){
-            if (!l.getFechaCita().equals(fechaReceso)){
+        for (Cita l : citaList) {
+            if (!l.getFechaCita().equals(fechaReceso)&& cont<=3) {
                 throw new Exception("Esta fecha tiene programado citas.\nSeleccione otra fecha para descanso");
             }
+            //falta calcular como que no programe 2 dias seguidos
+            diaLibre.add(fechaReceso);
+            cont++;
+
         }
         return "Fecha programada";
     }
 
+    /*
+    Lista de las citas atendidas por el medico
+     */
     @Override
-    public List<CitaDTOMedico> listarCitasRealizadasMedico() throws Exception{
-        List<Cita> listaMedico = citaRepo.findAll();
-        if (listaMedico.isEmpty()){
+    public List<CitaDTOMedico> listarCitasRealizadasMedico() throws Exception {
+        List<Cita> listaCitasAtendidas = citaRepo.findAll();
+        List<CitaDTOMedico> listaAtendida = new ArrayList<>();
+        if (listaCitasAtendidas.isEmpty()) {
             throw new Exception("No tiene citas atendidas");
         }
-        List<CitaDTOMedico> listaAtendida = new ArrayList<>();
 
-
-
-
-        /*for (CitaDTOMedico c : listaMedico ) {
-            if (c.getEstadoCita().equals(EstadoCita.ATENDIDA || EstadoCita.CANCELADA)){
-                listaAtendida.add(c);
+        for (Cita c : listaCitasAtendidas) {
+            if (c.getEstadoCita().equals(EstadoCita.ATENDIDA)) {
+                listaAtendida.add(new CitaDTOMedico(c.getCodigo(),
+                        c.getPaciente().getNombre(),
+                        c.getFechaCita(),
+                        c.getMotivo()));
             }
-        }*/
-
+        }
         return listaAtendida;
     }
 
