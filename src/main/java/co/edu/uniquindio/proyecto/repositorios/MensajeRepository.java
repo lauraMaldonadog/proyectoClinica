@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MensajeRepository extends JpaRepository <Mensaje, Integer> {
-
+    // List<Mensaje> findAllByPqrsCodigo(int codigo);
 
 }

@@ -15,6 +15,5 @@ public interface MedicoRepository extends JpaRepository <Medico, Integer> {
     // Medico buscaPorCedula(String cedula);                     // m es el alias de medico par amayor busqueda
     Medico findByCedula(String cedula);
 
-
-
+    Medico findByNombre(String nombreMedicoFiltrar);
 }

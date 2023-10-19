@@ -20,7 +20,6 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 public class Cita implements Serializable {
-
     @Id
     @Lob
     @Column(nullable = false)

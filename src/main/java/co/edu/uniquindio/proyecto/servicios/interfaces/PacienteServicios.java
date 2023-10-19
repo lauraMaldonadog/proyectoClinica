@@ -1,11 +1,9 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
-import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
-import co.edu.uniquindio.proyecto.dto.EmailDTO;
-import co.edu.uniquindio.proyecto.dto.InfoPQRSDTO;
-import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
+import co.edu.uniquindio.proyecto.modelo.PQRS;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +14,7 @@ public interface PacienteServicios {
 
     int editarPerfil(DetallePacienteDTO pacienteDTO) throws Exception;
 
-    String eliminarCuenta(DetallePacienteDTO pacienteDTO) throws Exception;
+    void eliminarCuenta(int codigo) throws Exception;
 
     EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception;
 
@@ -24,11 +22,15 @@ public interface PacienteServicios {
 
     int agendarCita(CitaDTOPaciente cita) throws Exception;
 
-    String crearPQRS(InfoPQRSDTO pqrsdto);
 
-    List<InfoPQRSDTO> listarPQRSPaciente() throws Exception;
 
-    String responderPQRS(int codigoPQRS, String mensaje); //Pendiente
+    String crearPQRS(DetallePQRSDTO pqrsdto) throws Exception;
+
+    List<PQRS> listarPQRSPaciente() throws Exception;
+
+
+
+    int responderPQRS(RegistroRespuestaDTO respuestaPQRSPDTO) throws Exception;
 
     List<CitaDTOPaciente> listarCitasPaciente(int codigo) throws Exception;
 

@@ -1,6 +1,5 @@
 package co.edu.uniquindio.proyecto.modelo;
 
-
     import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -16,8 +15,6 @@ import java.time.LocalDate;
     @AllArgsConstructor
     @EqualsAndHashCode(onlyExplicitlyIncluded = true)
     public class DiaLibre {
-
-
         @Id
         @EqualsAndHashCode.Include
         private int codigo;
