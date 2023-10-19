@@ -15,8 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Medico extends Usuario implements Serializable {
 
-    private String nombreMedico;
-
     private Especialidad Especialidad;
 
     @OneToMany(mappedBy = "codigoMedico")

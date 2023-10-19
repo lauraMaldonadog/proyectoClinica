@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Usuario extends Cuenta implements Serializable {
+public class    Usuario extends Cuenta implements Serializable {
 
     @Column(nullable = false, length = 10, unique = true)
     private String cedula;

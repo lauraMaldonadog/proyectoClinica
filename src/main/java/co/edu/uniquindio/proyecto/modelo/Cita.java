@@ -44,7 +44,7 @@ public class Cita implements Serializable {
 
     private EstadoCita estadoCita;
 
-    @OneToOne
+    @OneToOne(mappedBy = "cita")
     private AtencionCita atencionCita;
 
     @OneToMany(mappedBy = "cita")

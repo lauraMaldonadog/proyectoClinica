@@ -27,8 +27,6 @@ public class Paciente extends Usuario implements Serializable {
 
         private TipoSangre codigoTipoSangre;
 
-        private Ciudad codigoCiudad;
-
         @OneToMany(mappedBy = "paciente")
         private List<Cita> listaCitas;
 
