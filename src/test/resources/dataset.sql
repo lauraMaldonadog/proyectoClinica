@@ -1,6 +1,21 @@
 insert into cuenta values(1, 'pepito@email.com', '123');
 insert into cuenta values(2, 'juanita@email.com', '234');
-insert into paciente values('24567234', 0, 'Pepito Perez', '5454545', 'url_foto', 'Sin
-alergias', 1, '1990-01-01', 1, 1);
-insert into paciente values('18635123', 0, 'Juanita Lopez', '4564545', 'url_foto', 'Sin
-alergias', 0, '1995-11-28', 1, 2);
+insert into cuenta values(3, 'luis@email.com', '334');
+insert into cuenta values(4, 'david@email.com', '434');
+insert into cuenta values(5, 'oscar@email.com', '534');
+insert into paciente values('24567234', 1, 'Pepito Perez', '5454545', 'url_foto', 'Sinalergias', 1, 1, '1990-01-01', 1, 1, 1);
+insert into paciente values('18635123', 1, 'Carlos Lopez', '4564545', 'url_foto', 'Sinalergias', 1, 1, '1995-11-28', 2, 1, 1);
+insert into paciente values('42574652', 1, 'David Santiago', '2222222', 'url_foto', 'Alergico al polen',1, 1, '2000-12-5', 3, 2, 1);
+insert into paciente values('58423654', 1, 'Johan Stiven', '8585835', 'url_foto', 'Alergia acetaminofen', 1, 2, '2001-05-16', 4, 1, 1);
+insert into paciente values('45485654', 1, 'Jose Fernando', '54545856', 'url_foto', 'sin alergias', 2, 2, '1998-10-25',5, 2, 1);
+insert into Medico values('254875324', 1, 'Juan David', '3257486512', 'url_foto', 1, 1, 1, 1, 1, 'Oscar David');
+insert into Medico values('257845695', 1, 'Andres Camilo', '3215784695', 'url_foto', 1, 2, 1, 1, 1, 'Juan Pablo');
+insert into Medico values('547852169', 1, 'Diego Alexander', '5478453321', 'url_foto', 1, 3, 1, 1, 1, 'Juan David');
+insert into Medico values('754862315', 1, 'Andres Esteban', '3215744862', 'url_foto', 1, 4, 1, 1, 1, 'Juan Pablo');
+insert into Medico values('458756321', 1, 'Andres Felipe', '3102574865', 'url_foto', 1, 5, 1, 1, 1, 'Santiago');
+insert into Cita values(1, 1, '2023-10-25 10:20:000000', '2023-10-28 11:20:000000', 'Baricela', 1, 1, 1,1);
+insert into Cita values (002, '2023-10-25', '2023-10-29', 'Caries', 02);
+insert into Cita values (003, '2023-10-23', '2023-10-25', 'Dolor de estomago', 04);
+insert into Cita values (004, '2023-10-22', '2023-10-30', 'Dolor de cabeza', 004);
+insert into Cita values (005, '2023-10-20', '2023-11-01', 'Dolor de rodilla', 002);
+S

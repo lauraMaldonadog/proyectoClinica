@@ -5,8 +5,6 @@ import jakarta.persistence.Id;
 
 
 public enum Especialidad {
-
-
     OFTALMOLOGIA,
     CARDIOLOGIA,
     PEDIATRIA,
