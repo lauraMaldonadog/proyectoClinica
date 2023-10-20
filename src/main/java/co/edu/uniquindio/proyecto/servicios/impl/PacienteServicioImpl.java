@@ -10,6 +10,8 @@ import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.excepciones.ResourceNotFoundException;
 import co.edu.uniquindio.proyecto.modelo.*;
 import co.edu.uniquindio.proyecto.repositorios.*;
+import co.edu.uniquindio.proyecto.servicios.interfaces.AutenticacionServicios;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicios;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PacienteServicios;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,8 @@ public class PacienteServicioImpl implements PacienteServicios {
     private final PQRSRepository pqrsRepo;
     private final MensajeRepository mensajeRepo;
     private final CuentaRepository cuentaRepo;
-
+    private final AutenticacionServicios autenticacionServicios;
+    private final EmailServicios emailServicios;
 
     @Override
     public int registrarse(RegistroPacienteDTO pacienteDTO) throws Exception {
@@ -102,13 +105,47 @@ public class PacienteServicioImpl implements PacienteServicios {
 
     @Override
     public EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception {
-        return null;
+
+        Optional<Paciente> optionalPaciente = pacienteRepo.findByCorreo(emailEnviar.para());
+
+        if (optionalPaciente.isPresent()) {
+
+            Paciente pacienteAux = optionalPaciente.get();
+
+            LoginDTO loginDTO = new LoginDTO(emailEnviar.para(), pacienteAux.getPassword());
+
+            TokenDTO tokenRecuperacion = autenticacionServicios.login(loginDTO);
+
+            String asunto = "Recuperación de contraseña";
+            String mensaje = "Haga clic en el siguiente enlace para restablecer su contraseña ";
+            mensaje += "pagina para recuperar" + tokenRecuperacion;
+            EmailDTO emailAux = new EmailDTO(emailEnviar.para(), asunto, mensaje);
+
+            emailServicios.enviarCorreo(emailAux);
+
+            return emailAux;
+
+        }else {
+
+            throw new ResourceNotFoundException("El correo: "+emailEnviar.para()
+                    +" no está asociado a ningún cliente");
+        }
     }
 
     @Override
     public String cambiarPassword(String contraseñaActual, String nuevaContrasenia) throws Exception {
 
-        /* String respuesta = "Su contraseña ha sido cambiada";*/
+        /*String parametro = new String(Base64.getDecoder().decode(nuevaContrasenia));
+        String[] datos = parametro.split(";");
+        int codigoCuenta = Integer.parseInt(datos[0]);
+        LocalDateTime fecha = LocalDateTime.parse(datos[1]);
+        if (fecha.plusMinutes(30).isBefore(LocalDateTime.now())) {
+            throw new Exception("El Link de recuperacion ha expirado");
+        }
+        *//*Cuenta cuenta = obtenerCuentaCodigo(nuevaPasswordDTO.codigoCuenta());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        cuenta.setPassword(passwordEncoder.encode(nuevaPasswordDTO. nuevaPassword()));
+        cuentaRepo.save(cuenta);*/
 
 
 
@@ -325,6 +362,11 @@ public class PacienteServicioImpl implements PacienteServicios {
         for (Paciente paciente : pacientes) {
             repuesta.add( new ItemPacienteDTO( paciente.getCodigo(), paciente.getCedula(),
                     paciente.getNombre(), paciente.getCiudad() ) );
+        }
+        if (repuesta.isEmpty()) {
+
+            throw new ResourceNotFoundException("Todavía no hay clientes reigstrados");
+
         }
         return repuesta;
     }

@@ -1,32 +1,35 @@
 package co.edu.uniquindio.proyecto;
 
-import co.edu.uniquindio.proyecto.dto.CitaDTOPaciente;
-import co.edu.uniquindio.proyecto.dto.ItemPacienteDTO;
+import co.edu.uniquindio.proyecto.dto.*;
 import co.edu.uniquindio.proyecto.dto.paciente.DetallePacienteDTO;
 import co.edu.uniquindio.proyecto.dto.paciente.RegistroPacienteDTO;
-import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
-import co.edu.uniquindio.proyecto.enumeraciones.EPS;
-import co.edu.uniquindio.proyecto.enumeraciones.TipoSangre;
+import co.edu.uniquindio.proyecto.enumeraciones.*;
 import co.edu.uniquindio.proyecto.modelo.Cita;
+import co.edu.uniquindio.proyecto.modelo.PQRS;
 import co.edu.uniquindio.proyecto.servicios.interfaces.PacienteServicios;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@SpringBootTest
+@Transactional
 public class PacienteServicioTest {
+
     @Autowired
     private PacienteServicios pacienteServicio;
 
-   // @Test
-  /*  public void registrarTest() throws Exception {
+    @Test
+    public void registrarTest() throws Exception {
 //Creamos un objeto con los datos del paciente
         RegistroPacienteDTO pacienteDTO = new RegistroPacienteDTO(
                 "1097222222",
@@ -84,7 +87,7 @@ public class PacienteServicioTest {
         Assertions.assertNotNull(pacienteAEliminar);
 
         // Eliminar el paciente
-        pacienteServicio.eliminarCuenta(pacienteAEliminar);
+        pacienteServicio.eliminarCuenta(pacienteAEliminar.codigo());
 
         // Verificar que el paciente se ha eliminado
         Assertions.assertThrows(Exception.class, () -> pacienteServicio.verDetallePaciente(1));
@@ -102,7 +105,7 @@ public class PacienteServicioTest {
         Assertions.assertEquals(2, lista.size());
     }
 
-    @Test
+    /*@Test
     @Sql("classpath:dataset.sql")
     public List<CitaDTOPaciente> filtrarCitasPorFecha() throws Exception {
 
@@ -132,7 +135,95 @@ public class PacienteServicioTest {
 
         return null;
     }*/
+    @Test
+    public void enviarLinkRecuperacion() throws Exception {
 
+        pacienteServicio.enviarLinkRecuperacion(new EmailDTO("juanm.londonom@uqvirtual.edu.co",
+                "Link de recuperacion", "De click en el enlace"));
+    }
+
+    @Test
+    public void agendarCita() throws Exception {
+
+        String fechaTexto = "2023-10-16T12:30:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaDesdeTexto = LocalDateTime.parse(fechaTexto, formatter);
+
+        pacienteServicio.agendarCita(new CitaDTOPaciente(1, 1, fechaDesdeTexto,
+                "Pie de atleta"));
+
+    }
+    @Test
+    public void crearPQRS() throws Exception{
+
+        String fechaTexto = "2023-10-16T12:30:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaFormato = LocalDateTime.parse(fechaTexto, formatter);
+
+        pacienteServicio.crearPQRS(new DetallePQRSDTO(1, EstadoPQRS.NUEVO, "Mala atencion",
+                "Pedro", "Alonso", Especialidad.NEUROLOGIA,fechaFormato, new ArrayList<>()));
+
+
+    }
+
+    @Test
+    public void listarPQRSPaciente() throws Exception {
+
+        pacienteServicio.listarPQRSPaciente();
+    }
+
+    @Test
+    public void responderPQRS() throws Exception {
+
+        pacienteServicio.responderPQRS(new RegistroRespuestaDTO(01,1, 1, 1,
+        "Estamos para servirle para que solucione su inconveniente"));
+
+    }
+
+    @Test
+    public void listarCitasPaciente() throws Exception {
+
+        pacienteServicio.listarCitasPaciente(1);
+
+    }
+
+    @Test
+    public void filtrarCitasPorFecha() throws Exception {
+
+        String fechaTexto = "2023-11-25T10:00:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime fechaFormato = LocalDateTime.parse(fechaTexto, formatter);
+
+        pacienteServicio.filtrarCitasPorFecha(fechaFormato);
+    }
+
+    @Test
+    public void filtrarCitasPorMedico() throws Exception {
+
+        pacienteServicio.filtrarCitasPorMedico("Alonso");
+
+    }
+
+    @Test
+    public void verDetalleCita() throws Exception {
+
+        pacienteServicio.verDetalleCita(1);
+
+    }
+
+    @Test
+    public void verDetallePaciente() throws Exception {
+
+        pacienteServicio.verDetalleCita(1);
+
+    }
+
+    @Test
+    public void listarTodos(){
+
+        pacienteServicio.listarTodos();
+    }
 }
+
 
 
