@@ -4,4 +4,6 @@ public interface SedesServicios {
 
     void listarSedes();
 
+    String elegirSede(String nombreSede) throws Exception;
+
 }
