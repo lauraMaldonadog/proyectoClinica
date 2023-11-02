@@ -2,24 +2,14 @@ package co.edu.uniquindio.proyecto.enumeraciones;
 
 
 public enum Sede {
+    ARMENIA,
 
-    ARMENIA("Armenia"),
+    PEREIRA,
 
-    PEREIRA("Pereira"),
+    MANIZALES,
 
-    MANIZALES("Manizales"),
+    IBAGUE,
 
-    IBAGUE("Ibagué");
-
-    private String nombre;
-
-
-    Sede(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
 }
+
 

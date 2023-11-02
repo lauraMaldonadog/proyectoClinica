@@ -10,9 +10,11 @@ import co.edu.uniquindio.proyecto.enumeraciones.EstadoPQRS;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import co.edu.uniquindio.proyecto.modelo.*;
 import co.edu.uniquindio.proyecto.servicios.interfaces.AdministradorServicios;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -30,10 +32,14 @@ public class AdministradorServicioTest {
     @Test
     public void crearMedico() throws Exception {
 
-        administradorServicios.crearMedico(new RegistroMedicoDTO("Alonso", "100365464", Ciudad.ARMENIA,
+        int codigoMedico = administradorServicios.crearMedico(new RegistroMedicoDTO("Alonso", "100365464", Ciudad.ARMENIA,
                 Especialidad.PSICOLOGIA, "320464564", "alonso@gmail.com", "alonso123",
                 "https://img.freepik.com/foto-gratis/doctora-vistiendo-bata-laboratorio-estetoscopio-aislado_1303-29791.jpg"
                 , new ArrayList<>()));
+
+        List<ItemMedicoDTO> lista = administradorServicios.listaMedicos();
+
+        Assertions.assertFalse( !lista.isEmpty() );
 
     }
 
@@ -54,9 +60,11 @@ public class AdministradorServicioTest {
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void listaMedicos() throws Exception {
 
-        administradorServicios.listaMedicos();
+        List<ItemMedicoDTO> lista = administradorServicios.listaMedicos();
+        Assertions.assertEquals(3, lista.size());
 
     }
 

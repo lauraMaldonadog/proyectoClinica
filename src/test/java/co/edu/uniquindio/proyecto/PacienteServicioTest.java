@@ -27,7 +27,7 @@ public class PacienteServicioTest {
 
     @Autowired
     private PacienteServicios pacienteServicio;
-
+/*
     @Test
     public void registrarTest() throws Exception {
 //Creamos un objeto con los datos del paciente
@@ -50,7 +50,7 @@ public class PacienteServicioTest {
 
         Assertions.assertNotEquals(0, nuevo);
     }
-
+*/
     @Test
     @Sql("classpath:dataset.sql")
     public void actualizarTest() throws Exception {

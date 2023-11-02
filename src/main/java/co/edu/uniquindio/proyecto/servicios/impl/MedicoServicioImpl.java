@@ -1,13 +1,16 @@
 package co.edu.uniquindio.proyecto.servicios.impl;
 
+import co.edu.uniquindio.proyecto.dto.AgendarDiaLibreDTO;
 import co.edu.uniquindio.proyecto.dto.AtencionCitaDTOMedico;
 import co.edu.uniquindio.proyecto.dto.CitaDTOMedico;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoCita;
 import co.edu.uniquindio.proyecto.modelo.AtencionCita;
 import co.edu.uniquindio.proyecto.modelo.Cita;
+import co.edu.uniquindio.proyecto.modelo.DiaLibre;
 import co.edu.uniquindio.proyecto.modelo.Medico;
 import co.edu.uniquindio.proyecto.repositorios.AtencionCitaRepo;
 import co.edu.uniquindio.proyecto.repositorios.CitaRepository;
+import co.edu.uniquindio.proyecto.repositorios.DiaLibreRepository;
 import co.edu.uniquindio.proyecto.repositorios.MedicoRepository;
 import co.edu.uniquindio.proyecto.servicios.interfaces.MedicoServicios;
 import jakarta.transaction.Transactional;
@@ -28,6 +31,8 @@ public class MedicoServicioImpl implements MedicoServicios {
 
     private final CitaRepository citaRepo;
     private final AtencionCitaRepo atencionCitaRepo;
+    private final MedicoRepository medicoRepository;
+    private final DiaLibreRepository diaLibreRepository;
 
     @Override
     public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para
@@ -55,6 +60,7 @@ public class MedicoServicioImpl implements MedicoServicios {
 
     /*
     Atender citas del dia
+    funciona
      */
     @Override
     public void atenderCitas(AtencionCitaDTOMedico atencionCitaDTOMedico) throws Exception {                   //Atender cita
@@ -73,6 +79,7 @@ public class MedicoServicioImpl implements MedicoServicios {
 
     /*
     Visualizar las citas futuras
+    Funcina Comprobado
      */
 
     public List<CitaDTOMedico> listarCitasPacientes() throws Exception {
@@ -83,34 +90,44 @@ public class MedicoServicioImpl implements MedicoServicios {
             throw new Exception("No hay citas programadas");
         }
         for (Cita c : citas) {
-            c.getCodigo();
-            c.getPaciente().getNombre();
-            c.getFechaCita();
-            c.getMotivo();
+            listaCitasMedicoFuturas.add(new CitaDTOMedico(
+            c.getCodigo(),
+            c.getPaciente().getNombre(),
+            c.getFechaCita(),
+            c.getMotivo()));
         }
         return listaCitasMedicoFuturas;
     }
 
     /*
     Agendar el dia libre para el medico
+          Modificacion Rojo
+
      */
-    public String agendarDiaLibre(CitaDTOMedico cita) throws Exception {
-        int cont = 0;
-        List<Cita> citaList = citaRepo.findAll();
-        List<LocalDate> diaLibre = new ArrayList<>();
-        LocalDate fechaReceso = LocalDate.of(2023, 11, 30);
-        if (fechaReceso.equals(LocalDateTime.now())) {
-            throw new Exception("Hoy no puede solicitar receso.\nTiene que solicitar con anticipacion.");
+    public String agendarDiaLibre(AgendarDiaLibreDTO dto) throws Exception {
+
+        Optional<Medico> optionalMedico = medicoRepository.findById(dto.codigoMedico());
+
+        if(optionalMedico.isEmpty()){
+            throw new Exception("No existe un médico con el código enviado");
         }
+
+        List<Cita> citaList = citaRepo.findAll();
         for (Cita l : citaList) {
-            if (!l.getFechaCita().equals(fechaReceso)&& cont<=3) {
-                throw new Exception("Esta fecha tiene programado citas.\nSeleccione otra fecha para descanso");
+            if(l.getMedico().getCodigo() == dto.codigoMedico()) {
+                if (LocalDate.from(l.getFechaCita()).equals(dto.diaLibre())) {
+                    throw new Exception("Esta fecha tiene programado citas.\nSeleccione otra fecha para descanso");
+                }
             }
-            //falta calcular como que no programe 2 dias seguidos
-            diaLibre.add(fechaReceso);
-            cont++;
 
         }
+
+        DiaLibre diaLibre1 = new DiaLibre();
+        diaLibre1.setDia(dto.diaLibre());
+        diaLibre1.setCodigoMedico( optionalMedico.get() );
+
+        diaLibreRepository.save(diaLibre1);
+
         return "Fecha programada";
     }
 
@@ -122,7 +139,7 @@ public class MedicoServicioImpl implements MedicoServicios {
         List<Cita> listaCitasAtendidas = citaRepo.findAll();
         List<CitaDTOMedico> listaAtendida = new ArrayList<>();
         if (listaCitasAtendidas.isEmpty()) {
-            throw new Exception("No tiene citas atendidas");
+            throw new Exception("No tiene citas");
         }
 
         for (Cita c : listaCitasAtendidas) {

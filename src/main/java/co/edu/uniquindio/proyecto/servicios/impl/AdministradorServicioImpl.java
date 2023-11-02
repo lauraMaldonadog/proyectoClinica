@@ -47,7 +47,7 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         medico.setCiudad(medicoDTO.ciudad());
         medico.setCorreo(medicoDTO.correo());
         medico.setPassword(medicoDTO.password());
-        medico.setUrlFoto(medico.getUrlFoto());
+        medico.setUrlFoto(medicoDTO.urlFoto());
         medico.setEstadoUsuario(EstadoUsuario.ACTIVO);
 
         Medico nuevoMedico = medicoRepo.save(medico);
@@ -102,7 +102,7 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         return buscado.getCodigo();
     }
 
-    public void eliminarMedico(int codigo) throws Exception {
+        public void eliminarMedico(int codigo) throws Exception {
         Optional<Medico> optional = medicoRepo.findById(codigo);
         if (optional.isEmpty()) {
             throw new Exception("El medico con el codigo " + codigo + " no existe");
@@ -120,11 +120,12 @@ public class AdministradorServicioImpl implements AdministradorServicios {
         }
         List<ItemMedicoDTO> respuesta = new ArrayList<>();
         for (Medico m : medicos) {
-            m.getCodigo();
-            m.getNombre();
-            m.getCedula();
-            m.getEspecialidad();
-            m.getUrlFoto();
+            respuesta.add( new ItemMedicoDTO(
+                m.getCedula(),
+                m.getNombre(),
+                m.getUrlFoto(),
+                m.getEspecialidad()
+            ));
         }
         return respuesta;
     }
