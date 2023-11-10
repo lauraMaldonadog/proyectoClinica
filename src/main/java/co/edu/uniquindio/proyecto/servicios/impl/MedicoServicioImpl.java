@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.servicios.impl;
 
 import co.edu.uniquindio.proyecto.dto.AtencionCitaDTOMedico;
 import co.edu.uniquindio.proyecto.dto.CitaDTOMedico;
+import co.edu.uniquindio.proyecto.dto.DiaLibreDTO;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoCita;
 import co.edu.uniquindio.proyecto.modelo.AtencionCita;
 import co.edu.uniquindio.proyecto.modelo.Cita;
@@ -80,39 +81,51 @@ public class MedicoServicioImpl implements MedicoServicios {
         List<CitaDTOMedico> listaCitasMedicoFuturas = new ArrayList<>();
 
         if (citas.isEmpty()) {
-            throw new Exception("No hay citas programadas");
+            return listaCitasMedicoFuturas;
         }
+
         for (Cita c : citas) {
-            c.getCodigo();
-            c.getPaciente().getNombre();
-            c.getFechaCita();
-            c.getMotivo();
+            CitaDTOMedico citaDTO = new CitaDTOMedico(
+                    c.getCodigo(),
+                    c.getPaciente().getNombre(),
+                    c.getFechaCita(),
+                    c.getMotivo()
+            );
+            listaCitasMedicoFuturas.add(citaDTO);
         }
+
         return listaCitasMedicoFuturas;
     }
+
 
     /*
     Agendar el dia libre para el medico
      */
-    public String agendarDiaLibre(CitaDTOMedico cita) throws Exception {
+    @Override
+    public String agendarDiaLibre(DiaLibreDTO diaLibreDTO) throws Exception {
         int cont = 0;
         List<Cita> citaList = citaRepo.findAll();
-        List<LocalDate> diaLibre = new ArrayList<>();
-        LocalDate fechaReceso = LocalDate.of(2023, 11, 30);
-        if (fechaReceso.equals(LocalDateTime.now())) {
-            throw new Exception("Hoy no puede solicitar receso.\nTiene que solicitar con anticipacion.");
-        }
-        for (Cita l : citaList) {
-            if (!l.getFechaCita().equals(fechaReceso)&& cont<=3) {
-                throw new Exception("Esta fecha tiene programado citas.\nSeleccione otra fecha para descanso");
-            }
-            //falta calcular como que no programe 2 dias seguidos
-            diaLibre.add(fechaReceso);
-            cont++;
+        LocalDate fechaReceso = diaLibreDTO.dia(); // Obtiene la fecha del DTO
 
+        if (fechaReceso.equals(LocalDate.now())) {
+            throw new Exception("Hoy no puede solicitar receso.\nTiene que solicitar con anticipación.");
         }
+
+        for (Cita c : citaList) {
+            LocalDate fechaCita = c.getFechaCita().toLocalDate();
+            if (fechaCita.equals(fechaReceso) && cont < 3) {
+                throw new Exception("Esta fecha tiene programadas citas.\nSeleccione otra fecha para descanso");
+            }
+            cont++;
+        }
+
+        // Aquí puedes agregar lógica adicional si es necesario
+
         return "Fecha programada";
     }
+
+
+
 
     /*
     Lista de las citas atendidas por el medico
@@ -138,4 +151,3 @@ public class MedicoServicioImpl implements MedicoServicios {
 
 
 }
-
