@@ -29,6 +29,7 @@ public class PacienteServicioTest {
     private PacienteServicios pacienteServicio;
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void registrarTest() throws Exception {
 //Creamos un objeto con los datos del paciente
         RegistroPacienteDTO pacienteDTO = new RegistroPacienteDTO(
@@ -41,7 +42,7 @@ public class PacienteServicioTest {
                 "El polvo y el polen me hacen estornudar",
                 EPS.NUEVA_EPS,
                 TipoSangre.A_POSITIVO,
-                "pepitoperez@email.com",
+                "pepitop@email.com",
                 "12345678");
 
 //Guardamos el registro usando el método del servicio
@@ -102,58 +103,31 @@ public class PacienteServicioTest {
             System.out.println(paciente); // Corrección aquí
         }
 //Si en el dataset creamos 2 pacientes, entonces el tamaño de la lista debe ser 2
-        Assertions.assertEquals(2, lista.size());
+        Assertions.assertEquals(5, lista.size());
     }
 
-    /*@Test
-    @Sql("classpath:dataset.sql")
-    public List<CitaDTOPaciente> filtrarCitasPorFecha() throws Exception {
-
-        String fecha1 = "2023-11-15T10:30:00";
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime fechaF1 = LocalDateTime.parse(fecha1, formatter1);
-
-        String fecha2 = "2023-11-15T10:30:00";
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime fechaF2 = LocalDateTime.parse(fecha1, formatter2);
-
-        String fecha3 = "2023-11-15T10:30:00";
-        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime fechaF3 = LocalDateTime.parse(fecha1, formatter3);
-
-        String fechaBuscar = "2023-10-16T12:30:00";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime fechaDesdeTexto = LocalDateTime.parse(fechaBuscar, formatter);
-
-        CitaDTOPaciente c1 = new CitaDTOPaciente(01,"Pedro", fechaF1, "Dolor de cabeza");
-
-        CitaDTOPaciente c2 = new CitaDTOPaciente(02,"Andres", fechaF2, "Dolor de panza");
-
-        CitaDTOPaciente c3 = new CitaDTOPaciente(03,"Andrea", fechaF3, "Dolor de pierna");
-
-
-
-        return null;
-    }*/
     @Test
+
     public void enviarLinkRecuperacion() throws Exception {
 
-        pacienteServicio.enviarLinkRecuperacion(new EmailDTO("juanm.londonom@uqvirtual.edu.co",
+        pacienteServicio.enviarLinkRecuperacion(new EmailDTO("lauras.maldonadog@uqvirtual.edu.co",
                 "Link de recuperacion", "De click en el enlace"));
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void agendarCita() throws Exception {
 
         String fechaTexto = "2023-10-16T12:30:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDateTime fechaDesdeTexto = LocalDateTime.parse(fechaTexto, formatter);
 
-        pacienteServicio.agendarCita(new CitaDTOPaciente(1, 1, fechaDesdeTexto,
+        pacienteServicio.agendarCita(new CitaDTOPaciente(1, 6, fechaDesdeTexto,
                 "Pie de atleta"));
 
     }
     @Test
+    @Sql("classpath:dataset.sql")
     public void crearPQRS() throws Exception{
 
         String fechaTexto = "2023-10-16T12:30:00";
@@ -167,20 +141,22 @@ public class PacienteServicioTest {
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void listarPQRSPaciente() throws Exception {
 
         pacienteServicio.listarPQRSPaciente();
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void responderPQRS() throws Exception {
 
-        pacienteServicio.responderPQRS(new RegistroRespuestaDTO(01,1, 1, 1,
+        pacienteServicio.responderPQRS(new RegistroRespuestaDTO(1,1, 1, 1,
         "Estamos para servirle para que solucione su inconveniente"));
 
     }
-
     @Test
+    @Sql("classpath:dataset.sql")
     public void listarCitasPaciente() throws Exception {
 
         pacienteServicio.listarCitasPaciente(1);
@@ -188,9 +164,10 @@ public class PacienteServicioTest {
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void filtrarCitasPorFecha() throws Exception {
 
-        String fechaTexto = "2023-11-25T10:00:00";
+        String fechaTexto = "2023-10-25T10:20:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDateTime fechaFormato = LocalDateTime.parse(fechaTexto, formatter);
 
@@ -198,13 +175,15 @@ public class PacienteServicioTest {
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void filtrarCitasPorMedico() throws Exception {
 
-        pacienteServicio.filtrarCitasPorMedico("Alonso");
+        pacienteServicio.filtrarCitasPorMedico("Juan");
 
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void verDetalleCita() throws Exception {
 
         pacienteServicio.verDetalleCita(1);
@@ -212,18 +191,16 @@ public class PacienteServicioTest {
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void verDetallePaciente() throws Exception {
 
         pacienteServicio.verDetalleCita(1);
 
     }
-
     @Test
+    @Sql("classpath:dataset.sql")
     public void listarTodos(){
 
         pacienteServicio.listarTodos();
     }
 }
-
-
-

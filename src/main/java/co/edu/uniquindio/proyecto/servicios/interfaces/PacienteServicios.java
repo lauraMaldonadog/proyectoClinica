@@ -22,13 +22,9 @@ public interface PacienteServicios {
 
     int agendarCita(CitaDTOPaciente cita) throws Exception;
 
-
-
     String crearPQRS(DetallePQRSDTO pqrsdto) throws Exception;
 
     List<PQRS> listarPQRSPaciente() throws Exception;
-
-
 
     int responderPQRS(RegistroRespuestaDTO respuestaPQRSPDTO) throws Exception;
 
