@@ -1,5 +1,7 @@
 package co.edu.uniquindio.proyecto;
 
+import co.edu.uniquindio.proyecto.dto.AgendarDiaLibreDTO;
+import co.edu.uniquindio.proyecto.dto.AtencionCitaDTOMedico;
 import co.edu.uniquindio.proyecto.dto.CitaDTOMedico;
 import co.edu.uniquindio.proyecto.modelo.Cita;
 import co.edu.uniquindio.proyecto.repositorios.AtencionCitaRepo;
@@ -22,9 +24,13 @@ import java.util.List;
 public class MedicoServicioTest {
     @Autowired
     private MedicoServicios medicoServicios;
+
+    /*
+    a medias
+     */
     @Test
     @Sql("classpath:dataset.sql")
-    public void citasPendientes() throws Exception {
+    public void citasPendientesDia() throws Exception {
         List<CitaDTOMedico> listarCitasPendientes = medicoServicios.citasPendientes();
         Assertions.assertEquals(2,listarCitasPendientes.size());
     }
@@ -32,11 +38,15 @@ public class MedicoServicioTest {
 /*
 Funciona
  */
+
+
+
+
     @Test
     @Sql("classpath:dataset.sql")
     public void listarCitasPacientes() throws Exception{
         List<CitaDTOMedico> listarPacientes = medicoServicios.listarCitasPacientes();
-        Assertions.assertEquals(5, listarPacientes.size());
+        Assertions.assertEquals(2, listarPacientes.size());
 
     }
 

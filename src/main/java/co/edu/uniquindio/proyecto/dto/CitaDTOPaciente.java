@@ -6,6 +6,7 @@ public record CitaDTOPaciente(
         int codigoPaciente,
         int codigoMedico,
         LocalDateTime fecha,
+
         String motivo
 
 ) {

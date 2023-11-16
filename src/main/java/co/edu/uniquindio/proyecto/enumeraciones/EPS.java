@@ -2,17 +2,17 @@ package co.edu.uniquindio.proyecto.enumeraciones;
 
 import lombok.Getter;
 
-@Getter
+
 public enum EPS {
 
-    NUEVA_EPS ("Nueva Eps"),
-    SURA ("Sura"),
-    SANITAS("Sanitas");
+    NUEVA_EPS,
 
-    private String nombre;
+    SURA,
+
+    SANITAS,
 
 
-    EPS(String nombre) {
-        this.nombre = nombre;
-    }
+
+
+
 }

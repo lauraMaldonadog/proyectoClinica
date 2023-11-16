@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,10 @@ public class MedicoServicioImpl implements MedicoServicios {
     private final MedicoRepository medicoRepository;
     private final DiaLibreRepository diaLibreRepository;
 
+
+    /*
+    A medias
+     */
     @Override
     public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para
         List<Cita> citas = citaRepo.findAll();                              // atender el mismo dia
@@ -44,7 +50,7 @@ public class MedicoServicioImpl implements MedicoServicios {
         }
 
         for (Cita c : citas) {
-            if (c.getFechaCita().isAfter(LocalDateTime.now())) {          // Fecha
+            if (c.getFechaCita().toLocalDate().isEqual(LocalDateTime.now().toLocalDate())) {          // no funciona muy bien
                 listaCitasMedicoDia.add(new CitaDTOMedico(
                         c.getCodigo(),
                         c.getPaciente().getNombre(),

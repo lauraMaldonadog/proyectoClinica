@@ -12,4 +12,6 @@ public interface MedicoServicios {
     List<CitaDTOMedico> listarCitasPacientes() throws Exception;
     String agendarDiaLibre(AgendarDiaLibreDTO dto) throws Exception;
     List<CitaDTOMedico> listarCitasRealizadasMedico() throws Exception;
+
+
 }
