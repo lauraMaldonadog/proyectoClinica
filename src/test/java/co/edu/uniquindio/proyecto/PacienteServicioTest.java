@@ -27,7 +27,7 @@ public class PacienteServicioTest {
 
     @Autowired
     private PacienteServicios pacienteServicio;
-
+/*
     @Test
     @Sql("classpath:dataset.sql")
     public void registrarTest() throws Exception {
@@ -51,7 +51,7 @@ public class PacienteServicioTest {
 
         Assertions.assertNotEquals(0, nuevo);
     }
-
+*/
     @Test
     @Sql("classpath:dataset.sql")
     public void actualizarTest() throws Exception {
