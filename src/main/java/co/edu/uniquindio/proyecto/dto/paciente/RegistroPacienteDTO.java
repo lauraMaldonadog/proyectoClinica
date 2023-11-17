@@ -3,10 +3,7 @@ package co.edu.uniquindio.proyecto.dto.paciente;
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.EPS;
 import co.edu.uniquindio.proyecto.enumeraciones.TipoSangre;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
@@ -27,7 +24,7 @@ public record RegistroPacienteDTO(
         @NotNull
         Ciudad ciudad,
         @NotNull
-        @Future(message = "Seleccione una fecha de nacimiento correcta")
+        @Past(message = "Seleccione una fecha de nacimiento correcta")
         LocalDate fechaNacimiento,
         @NotBlank
         String alergias,

@@ -18,7 +18,7 @@ INSERT INTO paciente VALUES('18635123', 1, 1, 'Juanita Lopez', '4564545', 'url_f
 INSERT INTO paciente VALUES('18635124', 1, 1, 'Pedro Martinez', '7896789', 'url_foto', 'Sin alergias', 1, 1, '1995-03-15', 3);
 INSERT INTO paciente VALUES('18635125', 1, 1, 'Maria Rodriguez', '9876543', 'url_foto', 'Sin alergias', 1, 1, '1988-07-22', 4);
 INSERT INTO paciente VALUES('18635126', 1, 1, 'Luis Gonzalez', '5432109', 'url_foto', 'Sin alergias', 1, 1, '2000-11-10', 5);
-INSERT INTO paciente VALUES('18635127', 1, 1, 'Laura Gonzalez', '5432108', 'url_foto', 'Sin alergias', 1, 1, '2000-11-10', 11);
+    INSERT INTO paciente VALUES('18635127', 1, 1, 'Laura Gonzalez', '5432108', 'url_foto', 'Sin alergias', 1, 1, '2000-11-10', 11);
 
 -- Inserciones en la tabla "Medico"
 INSERT INTO Medico VALUES('254875324', 1, 1, 'Juan', '3257486512', 'url_foto', 1, 6);
