@@ -35,7 +35,7 @@ public class ClinicaController {
     @GetMapping("/lista-tipo-sangre")
     public ResponseEntity<MensajeDTO> listarTipoSangre()throws Exception{
         System.out.println( "Tipo Sangre "+ TipoSangre.values() );
-        return ResponseEntity.ok( new MensajeDTO( false, List.of( TipoSangre    .values()) ));
+        return ResponseEntity.ok( new MensajeDTO( false, List.of( TipoSangre.values()) ));
     }
 
 }

@@ -64,7 +64,7 @@ public class PacienteServicioImpl implements PacienteServicios {
     }
 
     private boolean correoRepetido(String correo) {
-        return pacienteRepo.findByCorreo(correo) != null;
+        return pacienteRepo.findByCorreo(correo).isPresent();
     }
 
     private boolean cedulaRepetida(String cedula) {
