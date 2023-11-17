@@ -38,6 +38,7 @@ public class PacienteServicioImpl implements PacienteServicios {
 
     @Override
     public int registrarse(RegistroPacienteDTO pacienteDTO) throws Exception {
+
         if (cedulaRepetida(pacienteDTO.cedula())) {
             throw new Exception("La cedula " + pacienteDTO.cedula() + " ya está en uso");
         }
@@ -106,7 +107,7 @@ public class PacienteServicioImpl implements PacienteServicios {
     @Override
     public EmailDTO enviarLinkRecuperacion(EmailDTO emailEnviar) throws Exception {
 
-        Optional<Paciente> optionalPaciente = pacienteRepo.findByCorreo(emailEnviar.para());
+        Optional<Paciente> optionalPaciente = Optional.ofNullable(pacienteRepo.findByCorreo(emailEnviar.para()));
 
         if (optionalPaciente.isPresent()) {
 
