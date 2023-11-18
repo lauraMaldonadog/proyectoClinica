@@ -13,32 +13,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/pacientes")
 public class PacienteController {
     private final PacienteServicios pacienteServicio;
 
 
-
     @PostMapping("/registrarse")
-    public ResponseEntity<MensajeDTO<String>> registrarse(@Valid @RequestBody RegistroPacienteDTO pacienteDTO) throws Exception{
+    public ResponseEntity<MensajeDTO<String>> registrarse(@Valid @RequestBody RegistroPacienteDTO pacienteDTO) throws Exception {
         pacienteServicio.registrarse(pacienteDTO);
-        return ResponseEntity.ok().body( new MensajeDTO<>(false, "Paciente registrado correctamente") );
-    }
-    @PutMapping("/editar-perfil")
-    public int editarPerfil(@Valid @RequestBody DetallePacienteDTO pacienteDTO) throws Exception{
-        return pacienteServicio.editarPerfil(pacienteDTO);
-    }
-    @DeleteMapping("/eliminar/{codigo}")
-    public void eliminarCuenta(@PathVariable int codigo) throws Exception{
-        pacienteServicio.eliminarCuenta(codigo);
-    }
-    @GetMapping("/detalle/{codigo}")
-    public DetallePacienteDTO verDetallePaciente(@PathVariable int codigo) throws Exception{
-        return pacienteServicio.verDetallePaciente(codigo);
-    }
-    @GetMapping("/listar-todos")
-    public List<ItemPacienteDTO> listarTodos(){
-        return pacienteServicio.listarTodos();
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Paciente registrado correctamente"));
     }
 
+    @PutMapping("/editar-perfil")
+    public ResponseEntity<MensajeDTO<String>> editarPerfil(@Valid @RequestBody DetallePacienteDTO pacienteDTO) throws Exception {
+        pacienteServicio.editarPerfil(pacienteDTO);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Paciente actualizado correctamente"));
+    }
+
+    @DeleteMapping("/eliminar/{codigo}")
+    public ResponseEntity<MensajeDTO<String>> eliminarCuenta(@PathVariable int codigo) throws
+            Exception {
+        pacienteServicio.eliminarCuenta(codigo);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Paciente eliminado correctamete")
+        );
+    }
+
+    @GetMapping("/detalle/{codigo}")
+    public ResponseEntity<MensajeDTO<DetallePacienteDTO>> verDetallePaciente(@PathVariable int codigo) throws Exception {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false,
+                pacienteServicio.verDetallePaciente(codigo)));
+    }
+
+    @GetMapping("/listar-todos")
+    public ResponseEntity<MensajeDTO<List<ItemPacienteDTO>>> listarTodos() {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, pacienteServicio.listarTodos()));
+    }
 }
