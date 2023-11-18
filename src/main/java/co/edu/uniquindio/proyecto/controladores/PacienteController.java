@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/auth")
 public class PacienteController {
     private final PacienteServicios pacienteServicio;
 
