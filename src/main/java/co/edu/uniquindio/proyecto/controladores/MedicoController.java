@@ -29,10 +29,10 @@ public class MedicoController {
         return ResponseEntity.ok().body( new MensajeDTO<>(false, "La cita ha sido atendida correctamente" ));
     }
 
-    @PostMapping("/agendar-dia-Libre/{diaLibre}/}")
-    public ResponseEntity<MensajeDTO<String>> agendarDiaLibre(@PathVariable DiaLibreDTO diaLibre) throws Exception{
-        medicoServicio.agendarDiaLibre( diaLibre);
-        return ResponseEntity.ok().body( new MensajeDTO<>(false, "El dia libre ha sido agendado correctamente" ));
+    @PostMapping("/agendar-dia-libre")
+    public ResponseEntity<MensajeDTO<String>> agendarDiaLibre(@Valid @RequestBody DiaLibreDTO diaLibre) throws Exception {
+        medicoServicio.agendarDiaLibre(diaLibre);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "El día libre ha sido agendado correctamente"));
     }
 
     @GetMapping("/listar-citas-pacientes")
