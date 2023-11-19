@@ -7,7 +7,7 @@ import co.edu.uniquindio.proyecto.dto.DiaLibreDTO;
 import java.util.List;
 
 public interface MedicoServicios {
-    List<CitaDTOMedico> citasPendientes() throws Exception;
+    List<CitaDTOMedico> citasPendientes(int codigoMedico) throws Exception;
     void atenderCitas(AtencionCitaDTOMedico atencionCitaDTOMedico) throws Exception;
     List<CitaDTOMedico> listarCitasPacientes() throws Exception;
     String agendarDiaLibre(DiaLibreDTO diaLibre) throws Exception;

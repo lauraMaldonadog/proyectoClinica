@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba48cd70-1c06-46fd-b7b4-6190fdba91ab" name="Changes" comment="Backend full">
+    <list default="true" id="ba48cd70-1c06-46fd-b7b4-6190fdba91ab" name="Changes" comment="Backend full x2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/src/app/servicios/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/servicios/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/pagina/calendario/calendario.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/pagina/calendario/calendario.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/pagina/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/pagina/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/servicios/medico.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/servicios/medico.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/src/app/servicios/token.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/my-app/src/app/servicios/token.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/AutenticacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/AutenticacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/PacienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/controladores/PacienteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/servicios/impl/MedicoServicioImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/servicios/impl/MedicoServicioImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/servicios/interfaces/MedicoServicios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/proyecto/servicios/interfaces/MedicoServicios.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/edu/uniquindio/proyecto/MedicoServicioTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/edu/uniquindio/proyecto/MedicoServicioTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +119,8 @@
       <updated>1700284600926</updated>
       <workItem from="1700284602034" duration="5199000" />
       <workItem from="1700319073942" duration="3728000" />
-      <workItem from="1700337537786" duration="4329000" />
+      <workItem from="1700337537786" duration="6175000" />
+      <workItem from="1700354894112" duration="7261000" />
     </task>
     <task id="LOCAL-00001" summary="Backend full">
       <option name="closed" value="true" />
@@ -119,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700344260157</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Backend full x2">
+      <option name="closed" value="true" />
+      <created>1700345988547</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700345988547</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,6 +157,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Backend full" />
-    <option name="LAST_COMMIT_MESSAGE" value="Backend full" />
+    <MESSAGE value="Backend full x2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backend full x2" />
   </component>
 </project>

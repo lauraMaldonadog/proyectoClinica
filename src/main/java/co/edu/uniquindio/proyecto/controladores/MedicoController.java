@@ -14,12 +14,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/medico")
 public class MedicoController {
     private final MedicoServicios medicoServicio;
 
     @GetMapping("/listar-citas-pendientes")
-    public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasPendientes()throws Exception {
-        return ResponseEntity.ok().body( new MensajeDTO<>(false, medicoServicio.citasPendientes()) );
+    public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasPendientes(@PathVariable int codigoMedico)throws Exception {
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, medicoServicio.citasPendientes(codigoMedico)) );
     }
 
     @PutMapping("/atender-cita")

@@ -31,7 +31,7 @@ public class MedicoServicioImpl implements MedicoServicios {
     private final AtencionCitaRepo atencionCitaRepo;
 
     @Override
-    public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para
+    public List<CitaDTOMedico> citasPendientes(int codigoMedico) throws Exception {         // lista de citas para
         List<Cita> citas = citaRepo.findAll();                              // atender el mismo dia
         List<CitaDTOMedico> listaCitasMedicoDia = new ArrayList<>();
 

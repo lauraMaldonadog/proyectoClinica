@@ -34,8 +34,9 @@ public class MedicoServicioTest {
     @Sql("classpath:dataset.sql")
     public void listarCitasPendientesMedicoTest() throws Exception {
 
+        int codigoMedico = 1;
         // Llama al método listarCitasPendientesMedico con el código de médico
-        List<CitaDTOMedico> lista = medicoServicios.citasPendientes();
+        List<CitaDTOMedico> lista = medicoServicios.citasPendientes(codigoMedico);
 
         assertNotNull(lista);
         assertEquals(0, lista.size());
