@@ -6,6 +6,7 @@ import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.EPS;
 import co.edu.uniquindio.proyecto.enumeraciones.TipoSangre;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

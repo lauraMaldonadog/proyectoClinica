@@ -37,8 +37,6 @@ public record RegistroPacienteDTO(
         @Email(message = "Ingrese una dirección de correo electrónico válida")
         String correo,
         @NotBlank
-        String password,
-        @NotBlank
-        String confirmaPassword
+        String password
 ) {
 }

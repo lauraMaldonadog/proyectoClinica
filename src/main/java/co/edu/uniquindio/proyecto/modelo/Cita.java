@@ -48,4 +48,19 @@ public class Cita implements Serializable {
 
     @OneToMany(mappedBy = "cita")
     private List<PQRS> listaPqrs;
+
+    @Override
+    public String toString() {
+        return "Cita{" +
+                "codigo=" + codigo +
+                ", fechaCreacion=" + fechaCreacion +
+                ", fechaCita=" + fechaCita +
+                ", motivo='" + motivo + '\'' +
+                ", paciente=" + paciente +
+                ", medico=" + medico +
+                ", estadoCita=" + estadoCita +
+                ", atencionCita=" + atencionCita +
+                ", listaPqrs=" + listaPqrs +
+                '}';
+    }
 }

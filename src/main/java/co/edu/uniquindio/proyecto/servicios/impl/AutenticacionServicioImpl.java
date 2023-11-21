@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class AutenticacionServicioImpl implements AutenticacionServicios {
     private final CuentaRepository cuentaRepo;
 
     private final JWTUtils jwtUtils;
+
 
     @Override
     public TokenDTO login(LoginDTO loginDTO) throws Exception {
@@ -36,29 +38,38 @@ public class AutenticacionServicioImpl implements AutenticacionServicios {
         if( !passwordEncoder.matches(loginDTO.password(), cuenta.getPassword()) ){
             throw new Exception("La contraseña ingresada es incorrecta");
         }
-        return new TokenDTO( crearToken(cuenta) );
+
+        Map.Entry<Map<String, Object>, String> tokenEntry = crearToken(cuenta);
+        Map<String, Object> mapWithClaims = tokenEntry.getKey();
+        String generatedToken = tokenEntry.getValue();
+
+        return new TokenDTO(mapWithClaims, generatedToken);
     }
 
-
-    private String crearToken(Cuenta cuenta){
+    private Map.Entry<Map<String, Object>, String> crearToken(Cuenta cuenta) {
         String rol;
         String nombre;
-        if( cuenta instanceof Paciente){
+
+        if (cuenta instanceof Paciente) {
             rol = "paciente";
             nombre = ((Paciente) cuenta).getNombre();
-        }else if( cuenta instanceof Medico){
+        } else if (cuenta instanceof Medico) {
             rol = "medico";
             nombre = ((Medico) cuenta).getNombre();
-        }else{
+        } else {
             rol = "admin";
             nombre = "Administrador";
         }
+
         Map<String, Object> map = new HashMap<>();
         map.put("rol", rol);
         map.put("nombre", nombre);
         map.put("id", cuenta.getCodigo());
 
-        return jwtUtils.generarToken(cuenta.getCorreo(), map);
+        String token = jwtUtils.generarToken(cuenta.getCorreo(), map);
+
+        return new AbstractMap.SimpleEntry<>(map, token);
     }
+
 
 }

@@ -1,0 +1,127 @@
+Index: src/main/java/co/edu/uniquindio/proyecto/utils/FiltroToken.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.edu.uniquindio.proyecto.utils;\r\n\r\nimport co.edu.uniquindio.proyecto.dto.MensajeDTO;\r\nimport co.edu.uniquindio.proyecto.utils.JWTUtils;\r\nimport com.fasterxml.jackson.databind.ObjectMapper;\r\nimport io.jsonwebtoken.*;\r\nimport io.jsonwebtoken.security.SignatureException;\r\nimport jakarta.servlet.*;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.filter.OncePerRequestFilter;\r\n\r\nimport java.io.IOException;\r\n@Component\r\n@RequiredArgsConstructor\r\npublic class FiltroToken extends OncePerRequestFilter {\r\n\r\n    private final JWTUtils jwtUtils;\r\n<<<<<<< HEAD\r\n    @Override\r\n    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)\r\n            throws IOException, ServletException {\r\n        HttpServletRequest req = (HttpServletRequest) request;\r\n        HttpServletResponse res = (HttpServletResponse) response;\r\n        String requestURI = req.getRequestURI();\r\n        String token = getToken(req);\r\n        boolean error = true;\r\n        try{\r\n            if (requestURI.startsWith(\"/api/pacientes\") || requestURI.startsWith(\"/api/medicos\")\r\n\r\n                    || requestURI.startsWith(\"/api/admins\") ) {\r\n                if(token != null) {\r\n                    Jws<Claims> jws = jwtUtils.parseJwt(token);\r\n                    if (\r\n                            ( requestURI.startsWith(\"/api/pacientes\") &&\r\n\r\n                                    !jws.getBody().get(\"rol\").equals(\"paciente\") ) ||\r\n\r\n                                    ( requestURI.startsWith(\"/api/medicos\") &&\r\n\r\n                                            !jws.getBody().get(\"rol\").equals(\"medico\") ) ||\r\n\r\n                                    ( requestURI.startsWith(\"/api/admins\") &&\r\n\r\n                                            !jws.getBody().get(\"rol\").equals(\"admin\") )) {\r\n\r\n                        crearRespuestaError(\"No tiene los permisos para acceder a este recurso\",\r\n\r\n                                HttpServletResponse.SC_FORBIDDEN, res);\r\n\r\n                    }else{\r\n                        error = false;\r\n                    }\r\n                }else{\r\n                    crearRespuestaError(\"No hay un Token\", HttpServletResponse.SC_FORBIDDEN,\r\n\r\n                            res);\r\n\r\n                }\r\n            }else{\r\n                error = false;\r\n            }\r\n        }catch (MalformedJwtException | SignatureException e){\r\n            crearRespuestaError(\"El token es incorrecto\",\r\n                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR, res);\r\n        }catch (ExpiredJwtException e ){\r\n            crearRespuestaError(\"El token está vencido\",\r\n                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR, res);\r\n        }catch (Exception e){\r\n            crearRespuestaError(e.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR,\r\n\r\n                    res);\r\n        }\r\n        if(!error){\r\n            chain.doFilter(request, response);\r\n        }\r\n    }\r\n=======\r\n\r\n\r\n    @Override\r\n    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {\r\n// Configuración de cabeceras para CORS\r\n        res.addHeader(\"Access-Control-Allow-Origin\", \"*\");\r\n        res.addHeader(\"Access-Control-Allow-Methods\", \"GET, POST, PUT, DELETE, OPTIONS\");\r\n        res.addHeader(\"Access-Control-Allow-Headers\", \"Origin, Accept, Content-Type, Authorization\");\r\n        res.addHeader(\"Access-Control-Allow-Credentials\", \"true\");\r\n        if (req.getMethod().equals(\"OPTIONS\")) {\r\n            res.setStatus(HttpServletResponse.SC_OK);\r\n        }else {\r\n            String requestURI = req.getRequestURI();\r\n            String token = getToken(req);\r\n            boolean error = true;\r\n//Acá va lo mismo que teníamos en el método anterior. Lo de las rutas y validaciones.\r\n\r\n\r\n            try {\r\n                if (token != null) {\r\n                    Jws<Claims> jws = jwtUtils.parseJwt(token);\r\n                    //Acá haremos las validaciones de autorización de acuerdo al rol del usuario\r\n                    System.out.println(jws.getBody().getSubject());\r\n                }\r\n            } catch (Exception e) {\r\n                e.printStackTrace();\r\n            }\r\n\r\n            filterChain.doFilter(req, res);\r\n        }\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n>>>>>>> a4f61bdef7353c43effa4811d356cebbc0bdb87e\r\n    private String getToken(HttpServletRequest req) {\r\n        String header = req.getHeader(\"Authorization\");\r\n        if(header != null && header.startsWith(\"Bearer \"))\r\n            return header.replace(\"Bearer \", \"\");\r\n        return null;\r\n    }\r\n    private void crearRespuestaError(String mensaje, int codigoError, HttpServletResponse\r\n            response) throws IOException {\r\n        MensajeDTO<String> dto = new MensajeDTO<>(true, mensaje);\r\n        response.setContentType(\"application/json\");\r\n        response.setStatus(codigoError);\r\n        response.getWriter().write(new ObjectMapper().writeValueAsString(dto));\r\n        response.getWriter().flush();\r\n        response.getWriter().close();\r\n    }\r\n                }
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/edu/uniquindio/proyecto/utils/FiltroToken.java b/src/main/java/co/edu/uniquindio/proyecto/utils/FiltroToken.java
+--- a/src/main/java/co/edu/uniquindio/proyecto/utils/FiltroToken.java	
++++ b/src/main/java/co/edu/uniquindio/proyecto/utils/FiltroToken.java	
+@@ -1,7 +1,6 @@
+ package co.edu.uniquindio.proyecto.utils;
+ 
+ import co.edu.uniquindio.proyecto.dto.MensajeDTO;
+-import co.edu.uniquindio.proyecto.utils.JWTUtils;
+ import com.fasterxml.jackson.databind.ObjectMapper;
+ import io.jsonwebtoken.*;
+ import io.jsonwebtoken.security.SignatureException;
+@@ -10,15 +9,12 @@
+ import jakarta.servlet.http.HttpServletResponse;
+ import lombok.RequiredArgsConstructor;
+ import org.springframework.stereotype.Component;
+-import org.springframework.web.filter.OncePerRequestFilter;
+-
+ import java.io.IOException;
++
+ @Component
+ @RequiredArgsConstructor
+-public class FiltroToken extends OncePerRequestFilter {
+-
++public class FiltroToken implements Filter {
+     private final JWTUtils jwtUtils;
+-<<<<<<< HEAD
+     @Override
+     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+             throws IOException, ServletException {
+@@ -77,48 +73,6 @@
+             chain.doFilter(request, response);
+         }
+     }
+-=======
+-
+-
+-    @Override
+-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+-// Configuración de cabeceras para CORS
+-        res.addHeader("Access-Control-Allow-Origin", "*");
+-        res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+-        res.addHeader("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, Authorization");
+-        res.addHeader("Access-Control-Allow-Credentials", "true");
+-        if (req.getMethod().equals("OPTIONS")) {
+-            res.setStatus(HttpServletResponse.SC_OK);
+-        }else {
+-            String requestURI = req.getRequestURI();
+-            String token = getToken(req);
+-            boolean error = true;
+-//Acá va lo mismo que teníamos en el método anterior. Lo de las rutas y validaciones.
+-
+-
+-            try {
+-                if (token != null) {
+-                    Jws<Claims> jws = jwtUtils.parseJwt(token);
+-                    //Acá haremos las validaciones de autorización de acuerdo al rol del usuario
+-                    System.out.println(jws.getBody().getSubject());
+-                }
+-            } catch (Exception e) {
+-                e.printStackTrace();
+-            }
+-
+-            filterChain.doFilter(req, res);
+-        }
+-
+-
+-    }
+-
+-
+-
+-
+-
+-
+-
+->>>>>>> a4f61bdef7353c43effa4811d356cebbc0bdb87e
+     private String getToken(HttpServletRequest req) {
+         String header = req.getHeader("Authorization");
+         if(header != null && header.startsWith("Bearer "))
+Index: src/main/java/co/edu/uniquindio/proyecto/dto/ValidacionDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.edu.uniquindio.proyecto.dto;\r\n\r\nimport lombok.Getter;\r\nimport lombok.Setter;\r\n\r\n@Getter\r\n@Setter\r\npublic record ValidacionDTO(\r\n    String campo,\r\n    String error\r\n){\r\n\r\n}
+===================================================================
+diff --git a/src/main/java/co/edu/uniquindio/proyecto/dto/ValidacionDTO.java b/src/main/java/co/edu/uniquindio/proyecto/dto/ValidacionDTO.java
+--- a/src/main/java/co/edu/uniquindio/proyecto/dto/ValidacionDTO.java	
++++ b/src/main/java/co/edu/uniquindio/proyecto/dto/ValidacionDTO.java	
+@@ -1,10 +1,6 @@
+ package co.edu.uniquindio.proyecto.dto;
+ 
+-import lombok.Getter;
+-import lombok.Setter;
+ 
+-@Getter
+-@Setter
+ public record ValidacionDTO(
+     String campo,
+     String error
+Index: src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.edu.uniquindio.proyecto.controladores;\r\n\r\nimport co.edu.uniquindio.proyecto.dto.AtencionCitaDTOMedico;\r\nimport co.edu.uniquindio.proyecto.dto.CitaDTOMedico;\r\nimport co.edu.uniquindio.proyecto.dto.DiaLibreDTO;\r\nimport co.edu.uniquindio.proyecto.dto.MensajeDTO;\r\nimport co.edu.uniquindio.proyecto.servicios.interfaces.MedicoServicios;\r\nimport jakarta.validation.Valid;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.List;\r\n\r\n@RequiredArgsConstructor\r\n@RestController\r\npublic class MedicoController {\r\n    private final MedicoServicios medicoServicio;\r\n\r\n    @GetMapping(\"/listar-citas-pendientes\")\r\n    public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasPendientes()throws Exception {\r\n        return ResponseEntity.ok().body( new MensajeDTO<>(false, medicoServicio.citasPendientes()) );\r\n    }\r\n\r\n    @PutMapping(\"/atender-cita\")\r\n    public ResponseEntity<MensajeDTO<String>> atenderCita(@Valid @RequestBody AtencionCitaDTOMedico atencionCitaMedicoDTO) throws Exception{\r\n        medicoServicio.atenderCitas(atencionCitaMedicoDTO);\r\n        return ResponseEntity.ok().body( new MensajeDTO<>(false, \"La cita ha sido atendida correctamente\" ));\r\n    }\r\n\r\n    @PostMapping(\"/agendar-dia-Libre/{diaLibre}/}\")\r\n    public ResponseEntity<MensajeDTO<String>> agendarDiaLibre(@PathVariable DiaLibreDTO diaLibre) throws Exception{\r\n        medicoServicio.agendarDiaLibre( diaLibre);\r\n        return ResponseEntity.ok().body( new MensajeDTO<>(false, \"El dia libre ha sido agendado correctamente\" ));\r\n    }\r\n\r\n    @GetMapping(\"/listar-citas-pacientes\")\r\n    public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasPacientes() throws Exception {\r\n        return ResponseEntity.ok().body(new MensajeDTO<>(false, medicoServicio.listarCitasPacientes()));\r\n    }\r\n\r\n    @GetMapping(\"/listar-citas-realizadas\")\r\n    public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasRealizadasMedico() throws Exception {\r\n        return ResponseEntity.ok().body(new MensajeDTO<>(false, medicoServicio.listarCitasRealizadasMedico()));\r\n    }\r\n}\r\n\r\n    \r\n\r\n
+===================================================================
+diff --git a/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java b/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java
+--- a/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java	
++++ b/src/main/java/co/edu/uniquindio/proyecto/controladores/MedicoController.java	
+@@ -29,10 +29,10 @@
+         return ResponseEntity.ok().body( new MensajeDTO<>(false, "La cita ha sido atendida correctamente" ));
+     }
+ 
+-    @PostMapping("/agendar-dia-Libre/{diaLibre}/}")
+-    public ResponseEntity<MensajeDTO<String>> agendarDiaLibre(@PathVariable DiaLibreDTO diaLibre) throws Exception{
+-        medicoServicio.agendarDiaLibre( diaLibre);
+-        return ResponseEntity.ok().body( new MensajeDTO<>(false, "El dia libre ha sido agendado correctamente" ));
++    @PostMapping("/agendar-dia-libre")
++    public ResponseEntity<MensajeDTO<String>> agendarDiaLibre(@Valid @RequestBody DiaLibreDTO diaLibre) throws Exception {
++        medicoServicio.agendarDiaLibre(diaLibre);
++        return ResponseEntity.ok().body(new MensajeDTO<>(false, "El día libre ha sido agendado correctamente"));
+     }
+ 
+     @GetMapping("/listar-citas-pacientes")

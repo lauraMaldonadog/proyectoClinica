@@ -4,6 +4,7 @@ package co.edu.uniquindio.proyecto.modelo;
 import co.edu.uniquindio.proyecto.enumeraciones.Ciudad;
 import co.edu.uniquindio.proyecto.enumeraciones.EstadoUsuario;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class    Usuario extends Cuenta implements Serializable {
     private String telefono;
 
     @Lob
+    @NotNull
     @Column(nullable = false)
     private String urlFoto;
 

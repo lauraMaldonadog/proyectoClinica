@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacionController {
     private final AutenticacionServicios autenticacionServicio;
     @PostMapping("/login")
-    public ResponseEntity<MensajeDTO<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO)
+    public ResponseEntity<MensajeDTO<TokenDTO>> login( @RequestBody LoginDTO loginDTO)
             throws Exception {
         TokenDTO tokenDTO = autenticacionServicio.login(loginDTO);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, tokenDTO));

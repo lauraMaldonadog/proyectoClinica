@@ -14,11 +14,12 @@ import java.io.Serializable;
         @Lob
         @Id
         @Column(nullable = false)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int codigo;
 
         @Lob
-        @Column(nullable = false)
-        private String diagnotisco;
+        @Column(nullable = true)
+        private String diagnostico;
 
         @Lob
         @Column(nullable = false)

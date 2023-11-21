@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record TokenDTO(
 
-        @NotBlank
+        java.util.Map<String, Object> mapWithClaims, @NotBlank
         String token
+
+
 
 ) {
 }

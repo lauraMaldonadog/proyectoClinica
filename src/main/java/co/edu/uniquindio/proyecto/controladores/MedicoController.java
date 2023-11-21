@@ -14,15 +14,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/medico")
 public class MedicoController {
     private final MedicoServicios medicoServicio;
 
     @GetMapping("/listar-citas-pendientes")
     public ResponseEntity<MensajeDTO<List<CitaDTOMedico>>> listarCitasPendientes()throws Exception {
+        System.out.println("hola 2");
         return ResponseEntity.ok().body( new MensajeDTO<>(false, medicoServicio.citasPendientes()) );
     }
 
-    @PutMapping("/atender-cita")
+    @PostMapping ("/atender-cita")
     public ResponseEntity<MensajeDTO<String>> atenderCita(@Valid @RequestBody AtencionCitaDTOMedico atencionCitaMedicoDTO) throws Exception{
         medicoServicio.atenderCitas(atencionCitaMedicoDTO);
         return ResponseEntity.ok().body( new MensajeDTO<>(false, "La cita ha sido atendida correctamente" ));

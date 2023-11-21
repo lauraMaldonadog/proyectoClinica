@@ -32,7 +32,14 @@ public class MedicoServicioImpl implements MedicoServicios {
 
     @Override
     public List<CitaDTOMedico> citasPendientes() throws Exception {         // lista de citas para
-        List<Cita> citas = citaRepo.findAll();                              // atender el mismo dia
+
+
+        List<Cita> citas = citaRepo.findAll();
+
+        for (Cita cita : citas) {
+            System.out.println(cita.toString()); // O simplemente: System.out.println(cita);
+        }
+        // atender el mismo dia
         List<CitaDTOMedico> listaCitasMedicoDia = new ArrayList<>();
 
         if (citas.isEmpty()) {
@@ -40,7 +47,7 @@ public class MedicoServicioImpl implements MedicoServicios {
         }
 
         for (Cita c : citas) {
-            if (c.getFechaCita().isAfter(LocalDateTime.now())) {          // Fecha
+            if (c.getEstadoCita() != EstadoCita.ATENDIDA) {          // Fecha
                 listaCitasMedicoDia.add(new CitaDTOMedico(
                         c.getCodigo(),
                         c.getPaciente().getNombre(),
@@ -49,7 +56,7 @@ public class MedicoServicioImpl implements MedicoServicios {
                 ));
             }
         }
-
+        System.out.println(listaCitasMedicoDia);
         return listaCitasMedicoDia;
     }
 
@@ -63,13 +70,18 @@ public class MedicoServicioImpl implements MedicoServicios {
         if (optionalCita.isEmpty()) {
             throw new Exception("No hay cita con el codigo:" + atencionCitaDTOMedico.codigoCita());
         }
+        Cita cita = optionalCita.get();
+
         AtencionCita atencionCita = new AtencionCita();
-        atencionCita.setCita(optionalCita.get());
-        atencionCita.setTratamiento(atencionCita.getTratamiento());
-        atencionCita.setDiagnotisco(atencionCita.getDiagnotisco());
-        atencionCita.setNotasMedicas(atencionCita.getNotasMedicas());
-        atencionCita.getCita().setEstadoCita(EstadoCita.ATENDIDA);
+        atencionCita.setCita(cita);
+        atencionCita.setTratamiento(atencionCitaDTOMedico.tratamiento());
+        atencionCita.setDiagnostico(atencionCitaDTOMedico.diagnotisco());
+        atencionCita.setNotasMedicas(atencionCitaDTOMedico.notasMedicas());
+
         atencionCitaRepo.save(atencionCita);
+
+        cita.setEstadoCita(EstadoCita.ATENDIDA);
+        citaRepo.save(cita);
     }
 
     /*

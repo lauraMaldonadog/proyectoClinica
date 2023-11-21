@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
@@ -43,10 +44,18 @@ public class MedicoServicioTest {
 
 
     @Test
+    public void password(){
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        System.out.println( passwordEncoder.encode("1234") );
+
+    }
+    @Test
     @Sql("classpath:dataset.sql")
     public void atenderCitas() throws Exception {
         // Supongamos que tienes un objeto AtencionCitaDTOMedico válido llamado atencionCitaDTO
-        AtencionCitaDTOMedico atencionCitaDTO = new AtencionCitaDTOMedico(2, "No tiene nada",
+        AtencionCitaDTOMedico atencionCitaDTO = new AtencionCitaDTOMedico(6, "No tiene nada",
                 "Dormir", "El paciente necesita mimir");
 
         // Llama al método atenderCitas con el objeto atencionCitaDTO

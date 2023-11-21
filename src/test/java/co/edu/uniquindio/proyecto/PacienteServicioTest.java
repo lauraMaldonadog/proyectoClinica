@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,31 +28,41 @@ public class PacienteServicioTest {
 
     @Autowired
     private PacienteServicios pacienteServicio;
-/*
+
     @Test
-    @Sql("classpath:dataset.sql")
-    public void registrarTest() throws Exception {
-//Creamos un objeto con los datos del paciente
-        RegistroPacienteDTO pacienteDTO = new RegistroPacienteDTO(
-                "1097222222",
-                "Pepito Perez",
-                "3243434",
-                "aquí va la url de la foto",
-                Ciudad.ARMENIA,
-                LocalDate.of(1990, 10, 7),
-                "El polvo y el polen me hacen estornudar",
-                EPS.NUEVA_EPS,
-                TipoSangre.A_POSITIVO,
-                "pepitop@email.com",
-                "12345678");
+    public void password(){
 
-//Guardamos el registro usando el método del servicio
-        int nuevo = pacienteServicio.registrarse(pacienteDTO);
-//Comprobamos que sí haya quedado guardado. Si se guardó debe retornar el código (no 0).
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        Assertions.assertNotEquals(0, nuevo);
+        System.out.println( passwordEncoder.encode("123") );
+
     }
-*/
+
+    /*
+        @Test
+        @Sql("classpath:dataset.sql")
+        public void registrarTest() throws Exception {
+    //Creamos un objeto con los datos del paciente
+            RegistroPacienteDTO pacienteDTO = new RegistroPacienteDTO(
+                    "1097222222",
+                    "Pepito Perez",
+                    "3243434",
+                    "aquí va la url de la foto",
+                    Ciudad.ARMENIA,
+                    LocalDate.of(1990, 10, 7),
+                    "El polvo y el polen me hacen estornudar",
+                    EPS.NUEVA_EPS,
+                    TipoSangre.A_POSITIVO,
+                    "pepitop@email.com",
+                    "12345678");
+
+    //Guardamos el registro usando el método del servicio
+            int nuevo = pacienteServicio.registrarse(pacienteDTO);
+    //Comprobamos que sí haya quedado guardado. Si se guardó debe retornar el código (no 0).
+
+            Assertions.assertNotEquals(0, nuevo);
+        }
+    */
     @Test
     @Sql("classpath:dataset.sql")
     public void actualizarTest() throws Exception {
@@ -152,7 +163,7 @@ public class PacienteServicioTest {
     public void responderPQRS() throws Exception {
 
         pacienteServicio.responderPQRS(new RegistroRespuestaDTO(1,1, 1, 1,
-        "Estamos para servirle para que solucione su inconveniente"));
+                "Estamos para servirle para que solucione su inconveniente"));
 
     }
     @Test
